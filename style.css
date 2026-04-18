@@ -1,0 +1,91 @@
+body {
+    font-family: Arial;
+    background-color: #FFF8E1;
+    text-align: center;
+}
+h1 {
+    color: #C62828;
+}
+h2 {
+    color: #E65100;
+}
+table {
+    margin: auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #BF360C;
+    padding: 8px;
+}
+th {
+    background-color: #FFCC80;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+form {
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.header {
+    background-color: #FFECB3;
+    padding: 20px;
+}
+
+.products {
+    background-color: white;
+    padding: 20px;
+}
+
+.order {
+    background-color: #FFF8E1;
+    padding: 20px;
+}
+
+.contact {
+    background-color: #cdc6ad;
+    padding: 20px;
+}
+
+ul {
+    list-style-type: none; /* लिस्टचे डॉट काढून टाकले */
+}
+
+/* मोबाईलसाठी स्टाईल - 600px पेक्षा लहान स्क्रीन */
+@media only screen and (max-width: 600px) {
+    
+    body {
+        text-align: left; /* मोबाईलवर डावीकडे अलाईन बरं दिसतं */
+    }
+    
+    .header, .products, .contact {
+        padding: 10px; /* मोबाईलवर कमी पॅडिंग */
+        margin: 5px;
+    }
+    
+    table {
+        width: 100%; /* टेबल पूर्ण स्क्रीन घेईल */
+        font-size: 14px; /* अक्षर जरा लहान */
+    }
+    
+    input {
+        width: 90%; /* इनपुट बॉक्स मोठे होतील, टाईप करायला सोपे */
+        padding: 8px;
+    }
+    
+    button {
+        width: 100%; /* बटण पूर्ण रुंदीचं */
+        padding: 12px;
+    }
+    
+    img {
+        width: 100px; /* लोगो मोबाईलवर लहान */
+    }
+}
