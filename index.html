@@ -7,7 +7,7 @@
 <body>
 
     <div class = "header">
-    <img src="WhatsApp Image 2026-04-18 at 4.12.56 PM.jpeg" alt="धनलक्ष्मी लोगो" width="150">
+    <img src="C:\Users\Mayur Raut\Downloads\WhatsApp Image 2026-04-18 at 4.12.56 PM.jpeg" alt="धनलक्ष्मी लोगो" width="150">
     
     <hr>
 
@@ -72,8 +72,35 @@
     <label>पत्ता:</label><br>
     <input type="text" placeholder="घराचा पत्ता"><br><br>
     
-    <button type="submit">ऑर्डर पाठवा</button>
+    <button onclick="showOrderMessage()">ऑर्डर करा</button>
     </form>
+
+    <div class="calculator">
+    <h3>किंमत कॅल्क्युलेटर</h3>
+    
+    <label>शेवईचा प्रकार निवडा:</label>
+    <select id="sevaiType" onchange="calculatePrice()">
+        <option value="0">-- प्रकार निवडा --</option>
+        <option value="90">गव्हाची शेवई - ९० रु/kg</option>
+        <option value="70">रवा शेवई - ७० रु/kg</option>
+        <option value="90">मैदा शेवई - ९० रु/kg</option>
+    </select>
+    
+    <br><br>
+    
+    <label>प्रमाण निवडा:</label>
+    <select id="quantity" onchange="calculatePrice()">
+        <option value="0">-- निवडा --</option>
+        <option value="1">1 Kg</option>
+        <option value="2">2 Kg</option>
+        <option value="3">3 Kg</option>
+        <option value="4">4 Kg</option>
+        <option value="5">5 Kg</option>
+        <option value="10">10 Kg</option>
+    </select>
+    
+    <h4>एकूण किंमत: <span id="totalPrice">0</span> रुपये</h4>
+</div>
     
     </div>
 
@@ -88,5 +115,27 @@
     <a href="https://wa.me/919561297071">WhatsApp वर मेसेज करा</a>
 
     </div>
+
+    <script>
+    // पॉपअप साठी
+    function showOrderMessage() {
+        alert("धन्यवाद! तुमची ऑर्डर नोंद झाली आहे. आम्ही लवकरच तुमच्याशी संपर्क करू.");
+    }
+
+    // कॅल्क्युलेटर साठी Step 2
+    function calculatePrice() {
+        // 1. पहिल्या ड्रॉपडाऊनची किंमत वाच
+        let sevaiRate = document.getElementById("sevaiType").value;
+        
+        // 2. दुसऱ्या ड्रॉपडाऊनचं प्रमाण वाच
+        let qty = document.getElementById("quantity").value;
+        
+        // 3. गुणाकार कर
+        let total = sevaiRate * qty;
+        
+        // 4. उत्तर "totalPrice" मध्ये दाखव
+        document.getElementById("totalPrice").innerText = total;
+    }
+</script>
 </body>
 </html>
