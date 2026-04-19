@@ -1,41 +1,76 @@
 body {
-    font-family: Arial;
-    background-color: #FFF8E1;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* #white ऐवजी */
     text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+* {
+    box-sizing: border-box; /* सगळ्यांना लागू - महत्वाचं */
+}
+
 h1 {
     color: #C62828;
 }
 h2 {
     color: #E65100;
 }
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 10px;
+}
+
 table {
     margin: auto;
     border-collapse: collapse;
+    width: 100%; /* पूर्ण रुंदी */
 }
 th, td {
     border: 1px solid #BF360C;
     padding: 8px;
+    text-align: left;
 }
 th {
     background-color: #FFCC80;
 }
+
 button {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
 }
+
 form {
     background-color: white;
     padding: 20px;
-    margin: 20px;
+    margin: 10px;
     border-radius: 10px;
 }
 
+input[type="text"], 
+input[type="tel"], 
+input[type="email"], 
+input[type="number"],
+textarea {
+    width: 100%; /* महत्वाचं */
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px; /* मोबाईलवर झूम होणार नाही */
+}
+
 .header {
-    background-color: #FFECB3;
+    background-color: whitesmoke;
     padding: 20px;
 }
 
@@ -55,7 +90,8 @@ form {
 }
 
 ul {
-    list-style-type: none; /* लिस्टचे डॉट काढून टाकले */
+    list-style-type: none;
+    padding: 0;
 }
 
 .calculator {
@@ -81,14 +117,17 @@ ul {
     align-items: center;
     margin-bottom: 12px;
     font-size: 16px;
+    gap: 10px;
 }
 
-.calculator select {
-    padding: 5px 10px;
+.calculator select, .calculator input {
+    padding: 8px 10px;
     border-radius: 4px;
     border: 1px solid #a7bce0;
     font-size: 15px;
     cursor: pointer;
+    width: 80px;
+    text-align: center;
 }
 
 .calculator p {
@@ -99,37 +138,37 @@ ul {
 }
 
 .calculator p strong {
-    font-weight: 60;
+    font-weight: 700; /* 60 ऐवजी 700 */
 }
 
 /* मोबाईलसाठी स्टाईल - 600px पेक्षा लहान स्क्रीन */
 @media only screen and (max-width: 600px) {
     
     body {
-        text-align: left; /* मोबाईलवर डावीकडे अलाईन बरं दिसतं */
+        text-align: left;
     }
     
-    .header, .products, .contact {
-        padding: 100%; /* मोबाईलवर कमी पॅडिंग */
+    .header, .products, .contact, .order {
+        padding: 15px; /* 100% ऐवजी 15px */
         margin: 5px;
     }
     
     table {
-        width: 10px; /* टेबल पूर्ण स्क्रीन घेईल */
-        font-size: 14px; /* अक्षर जरा लहान */
+        width: 100%; /* 10px ऐवजी 100% */
+        font-size: 14px;
+        display: block;
+        overflow-x: auto; /* टेबल मोठा असेल तर स्क्रोल होईल */
     }
     
-    input {
-        width: 90%; /* इनपुट बॉक्स मोठे होतील, टाईप करायला सोपे */
-        padding: 8px;
-    }
-    
-    button {
-        width: 100%; /* बटण पूर्ण रुंदीचं */
-        padding: 12px;
-    }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
     
     img {
-        width: 100px; /* लोगो मोबाईलवर लहान */
+        max-width: 120px; /* लोगो मोबाईलवर लहान */
+        height: auto;
+    }
+    
+    .calculator .item {
+        font-size: 15px;
     }
 }
