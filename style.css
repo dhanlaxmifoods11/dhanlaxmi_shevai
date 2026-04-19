@@ -58,6 +58,50 @@ ul {
     list-style-type: none; /* लिस्टचे डॉट काढून टाकले */
 }
 
+.calculator {
+    background-color: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.calculator h4 {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #e39f9f;
+    padding-bottom: 10px;
+}
+
+.calculator .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.calculator select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #a7bce0;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.calculator p {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 20px;
+    color: #1a73e8;
+}
+
+.calculator p strong {
+    font-weight: 60;
+}
+
 /* मोबाईलसाठी स्टाईल - 600px पेक्षा लहान स्क्रीन */
 @media only screen and (max-width: 600px) {
     
@@ -66,12 +110,12 @@ ul {
     }
     
     .header, .products, .contact {
-        padding: 10px; /* मोबाईलवर कमी पॅडिंग */
+        padding: 100%; /* मोबाईलवर कमी पॅडिंग */
         margin: 5px;
     }
     
     table {
-        width: 100%; /* टेबल पूर्ण स्क्रीन घेईल */
+        width: 10px; /* टेबल पूर्ण स्क्रीन घेईल */
         font-size: 14px; /* अक्षर जरा लहान */
     }
     
