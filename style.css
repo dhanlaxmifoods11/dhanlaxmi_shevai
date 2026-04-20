@@ -1,174 +1,724 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff; /* #white ऐवजी */
-    text-align: center;
+/* ===== बेसिक रिसेट आणि जनरल स्टाईल ===== */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-* {
-    box-sizing: border-box; /* सगळ्यांना लागू - महत्वाचं */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
 }
 
-h1 {
-    color: #C62828;
-}
-h2 {
-    color: #E65100;
-}
-
-.container {
-    max-width: 600px;
-    margin: auto;
-    padding: 10px;
-}
-
-table {
-    margin: auto;
-    border-collapse: collapse;
-    width: 100%; /* पूर्ण रुंदी */
-}
-th, td {
-    border: 1px solid #BF360C;
-    padding: 8px;
-    text-align: left;
-}
-th {
-    background-color: #FFCC80;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-}
-
-form {
-    background-color: white;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 10px;
-}
-
-input[type="text"], 
-input[type="tel"], 
-input[type="email"], 
-input[type="number"],
-textarea {
-    width: 100%; /* महत्वाचं */
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px; /* मोबाईलवर झूम होणार नाही */
-}
-
-.header {
-    background-color: whitesmoke;
-    padding: 20px;
-}
-
-.products {
-    background-color: white;
-    padding: 20px;
-}
-
-.order {
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 70px;
     background-color: #FFF8E1;
-    padding: 20px;
 }
 
-.contact {
-    background-color: #cdc6ad;
-    padding: 20px;
-}
-
-ul {
-    list-style-type: none;
+/* ===== मेन्यू बार ===== */
+.navbar {
+    background-color: #C62828;
     padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(8, 8, 8, 0.2);
 }
 
-.calculator {
-    background-color: #f9f9f9;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.calculator h4 {
-    margin-top: 0;
-    color: #333;
-    text-align: center;
-    border-bottom: 1px solid #e39f9f;
-    padding-bottom: 10px;
-}
-
-.calculator .item {
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    font-size: 16px;
-    gap: 10px;
+    height: 60px;
 }
 
-.calculator select, .calculator input {
-    padding: 8px 10px;
-    border-radius: 4px;
-    border: 1px solid #a7bce0;
-    font-size: 15px;
-    cursor: pointer;
-    width: 80px;
-    text-align: center;
-}
-
-.calculator p {
-    text-align: right;
+.nav-logo {
+    color: white;
+    font-weight: bold;
     font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer; /* हे ऍड कर */
+    transition: opacity 0.2s;
+}
+
+.nav-logo:hover {
+    opacity: 0.8; /* हॉवरवर थोडा फेड होईल */
+}
+
+.logo-img {
+    height: 45px;
+    width: auto;
+    background-color: white;
+    border-radius: 8px;
+    padding: 4px;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #E65100;
+    font-weight: bold;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+/* ===== सेक्शन टॉगल - एकदाच लिहिलंय ===== */
+.content-section {
+    display: none;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== हेडर ===== */
+.header {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+h1, h2, h3 {
+    color: #C62828;
+    margin-bottom: 15px;
+}
+
+/* ===== टेबल ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #C62828;
+    color: white;
+}
+
+/* ===== कॅल्क्युलेटर ===== */
+.calculator {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+}
+
+/* ===== कॅल्क्युलेटर - नवीन लेआउट - एकदाच लिहिलंय ===== */
+.calc-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 30px; /* शेवटचा कॉलम 30px फक्त आयकॉनसाठी */
+    gap: 10px;
+    align-items: center; /* center केले - सगळं मधोमध */
+    position: relative;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.calc-select {
+    display: flex;
+    flex-direction: column;
+}
+
+.calc-select label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.calc-select select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.add-more-btn {
+    background-color: rgb(19, 170, 37);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin: 15px 0;
+    transition: background-color 0.3s;
+}
+
+.add-more-btn:hover {
+    background-color: #E65100;
+}
+
+.remove-btn {
+    background: none; /* बॅकग्राउंड काढला */
+    border: none;
+    color: #999; /* ग्रे कलर */
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.remove-btn:hover {
+    color: #f44336; /* हॉवरवर लाल होईल */
+    transform: none; /* स्केल काढलं */
+}
+
+select, input[type="text"], input[type="tel"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+ul {
+    line-height: 2;
+    padding-left: 20px;
+}
+
+hr {
+    margin: 25px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.whatsapp-link {
+    color: #28a745;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.whatsapp-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== होम पेज माहिती ===== */
+.sanskrit-tag {
+    color: #E65100;
+    font-weight: 500;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.home-info {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.usp-list {
+    background-color: #fff8e1;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px dashed #FFB74D;
+    margin-bottom: 30px;
+}
+
+.usp-list p {
+    font-size: 17px;
+    color: #4E342E;
+    margin: 12px 0;
+    line-height: 1.7;
+}
+
+.speciality-box {
+    background: linear-gradient(100deg, #93e3a4, #c2eae9);
+    color: rgb(124, 15, 157);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+    margin: 30px 0;
+}
+
+.speciality-box h2 {
+    color: #4d4606;
+    margin: 0 0 15px 0;
+    font-size: 22px;
+}
+
+.speciality-box p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 10px 0;
+}
+
+.fresh-tag {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-top: 15px !important;
+    font-size: 15px !important;
+}
+
+.cta-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+
+.cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5);
+}
+
+/* ===== प्रोडक्ट्स पेज ===== */
+.products h2 {
+    text-align: center;
+    color: #C62828;
+    margin-bottom: 25px;
+}
+
+.product-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 2px solid #FFE0B2;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.2);
+}
+
+.product-card h3 {
+    color: #E65100;
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+.product-use {
+    color: #555;
+    font-style: italic;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 10px;
+}
+
+.product-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-features li {
+    color: #333;
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.product-details-box {
+    background-color: #E8F5E9;
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 5px solid #4CAF50;
+}
+
+.details-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+}
+
+.details-list li {
+    font-size: 16px;
+    color: #1B5E20;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.health-benefits h2 {
+    margin-bottom: 20px;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.benefit-item {
+    background-color: #F1F8E9;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #33691E;
+    line-height: 1.6;
+}
+
+.benefit-item.full-width {
+    grid-column: 1 / -1;
+}
+
+/* ===== ऑर्डर सेक्शन ===== */
+.delivery-info-box {
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid #2196F3;
+    margin-bottom: 20px;
+}
+
+.delivery-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.delivery-list li {
+    font-size: 16px;
+    color: #0D47A1;
+    margin: 12px 0;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.order-tagline {
+    text-align: center;
+    font-size: 17px;
+    color: #C62828;
+    margin: 20px 0 10px 0;
+    line-height: 1.8;
+}
+
+.order-tagline strong {
+    font-size: 18px;
+}
+
+.terms {
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+    margin: 15px 0 0 0;
+}
+
+.order h3 {
+    color: #C62828;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* ===== कॉन्टॅक्ट सेक्शन ===== */
+.contact-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    padding: 30px;
     margin-top: 20px;
-    color: #1a73e8;
+    border-top: 5px solid #C62828;
 }
 
-.calculator p strong {
-    font-weight: 700; /* 60 ऐवजी 700 */
+.contact-header {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* मोबाईलसाठी स्टाईल - 600px पेक्षा लहान स्क्रीन */
-@media only screen and (max-width: 600px) {
-    
-    body {
-        text-align: Center;
-    }
-    
-    .header, .products, .contact, .order {
-        padding: 15px; /* 100% ऐवजी 15px */
-        margin: 5px;
-    }
-    
-    table {
-        width: 100%; /* 10px ऐवजी 100% */
-        font-size: 14px;
+.contact-header h3 {
+    color: #C62828;
+    font-size: 28px;
+    margin: 0 0 10px 0;
+}
+
+.proprietor {
+    font-size: 18px;
+    color: #555;
+    margin: 0;
+}
+
+.contact-divider {
+    border: none;
+    border-top: 2px dashed #FFB74D;
+    margin: 25px 0;
+}
+
+.contact-details {
+    margin: 25px 0;
+}
+
+.contact-item {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.contact-item .icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.contact-item strong {
+    color: #333;
+}
+
+.phone-link {
+    color: #E65100;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.phone-link:hover {
+    color: #C62828;
+    text-decoration: underline;
+}
+
+.contact-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.whatsapp-btn, .call-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+    color: white;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+
+.call-btn {
+    background-color: #1976D2;
+    color: white;
+    box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3);
+}
+
+.whatsapp-btn:hover, .call-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* ===== मोबाईल रिस्पॉन्सिव्ह ===== */
+@media only screen and (max-width: 768px) {
+    .hamburger {
         display: block;
-        overflow-x: auto; /* टेबल मोठा असेल तर स्क्रोल होईल */
     }
     
-    h1 { font-size: 24px; }
-    h2 { font-size: 20px; }
-    
-    img {
-        max-width: 120px; /* लोगो मोबाईलवर लहान */
-        height: auto;
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 60px;
+        flex-direction: column;
+        background-color: #C62828;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        gap: 0;
+        padding: 20px 0;
     }
     
-    .calculator .item {
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .nav-link {
+        padding: 15px;
+        display: block;
+        border-bottom: 1px solid #e65100;
+    }
+    
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .logo-img {
+        height: 35px;
+    }
+    .nav-logo span {
+        font-size: 16px;
+    }
+
+    .sanskrit-tag {
+        font-size: 18px;
+    }
+    .usp-list p {
         font-size: 15px;
+    }
+    .speciality-box h2 {
+        font-size: 20px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    .product-card h3 {
+        font-size: 18px;
+    }
+
+    .delivery-list li {
+        font-size: 15px;
+    }
+    .order-tagline {
+        font-size: 15px;
+    }
+    .order-tagline strong {
+        font-size: 16px;
+    }
+
+    .contact-card {
+        padding: 20px;
+    }
+    .contact-header h3 {
+        font-size: 24px;
+    }
+    .contact-buttons {
+        grid-template-columns: 1fr;
+    }
+    .contact-item {
+        font-size: 15px;
+    }
+
+    .calc-row {
+        grid-template-columns: 1fr; /* एकाखाली एक */
+        padding: 15px 35px 15px 15px; /* उजवीकडे ❌ साठी जागा */
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+    
+    .calc-select select {
+        font-size: 16px;
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: 50%; /* वरून 50% */
+        right: 10px;
+        transform: translateY(-50%); /* बरोबर मधोमध आणलं */
+        width: 25px;
+        height: 25px;
+        font-size: 18px;
     }
 }

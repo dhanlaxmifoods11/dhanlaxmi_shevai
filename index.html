@@ -2,258 +2,561 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ही लाईन हवीच -->
-    <title>धनलक्ष्मी सेवाई</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>धनलक्ष्मी फूड्स</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <!-- मेन्यू बार सुरू -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="nav-logo" data-target="home" style="cursor: pointer; text-decoration: none;">
+                <img src="Logo.jpeg" alt="धनलक्ष्मी लोगो" class="logo-img">
+                 <span>धनलक्ष्मी फूड्स</span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a class="nav-link active" data-target="home">होम</a>
+                <a class="nav-link" data-target="products">प्रोडक्ट्स</a>
+                <a class="nav-link" data-target="order">ऑर्डर करा</a>
+                <a class="nav-link" data-target="contact">संपर्क</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+    <!-- मेन्यू बार संपला -->
 
-    <div class = "header">
-    <img style="background-color: white;" src="WhatsApp Image 2026-04-18 at 4.12.56 PM.jpeg" alt="धनलक्ष्मी लोगो" width="150">
+    <!-- होम सेक्शन -->
+<div class="header content-section active" id="home">
+    <h1>🌾 धनलक्ष्मी फूड्स 🌾</h1>
+    <h3 class="sanskrit-tag">॥ आहारा: सात्विकप्रिया: ॥</h3>
     
     <hr>
 
-    <h1>धनलक्ष्मी शेवई</h1>
-    <h3>शुद्धता आणि सात्विक आहाराची परंपरा</h3>
-   
-    </div>
-
-     <hr>
-
-     <div class = "products">
-    <h2>आमची वैशिष्ट्ये:</h2>
-    <ul>
-        <li>💯 शुद्ध गव्हापासून बनवलेली</li>
-        <li>🚫 प्रिझर्वेटिव्ह नाही</li>
-        <li>🏠 घरगुती चव</li>
-    </ul>
-
-    <hr>
-    
-    <h2>किंमत यादी:</h2>
-    <table border="1">
-        <tr>
-            <th>प्रॉडक्ट</th>
-            <th>पॅकिंग</th>
-            <th>किंमत</th>
-        </tr>
-        <tr>
-            <td>गहू शेवई</td>
-            <td>१ किलो</td>
-            <td>₹९०</td>
-        </tr>
-        <tr>
-            <td>रवा शेवई</td>
-            <td>१ किलो</td>
-            <td>₹७०</td>
-        </tr>
-        <tr>
-            <td>मैदा शेवई</td>
-            <td>१ किलो</td>
-            <td>₹९०</td>
-        </tr>
-    </table>
-
-    </div>
-
-    <div class = "order">
-    <hr>
-
-    <h2>ऑर्डर करा:</h2>
-
-    <form>
-    <label>तुमचं नाव:</label><br>
-    <input type="text" id="customerName" placeholder="पूर्ण नाव लिहा"><br><br>
-
-    <label>मोबाईल नंबर:</label><br>
-    <input type="tel" id="customerMobile" placeholder="१० अंकी मोबाईल नंबर"><br><br>
-    
-    <div class="calculator">
-        <h4><label style="font-size: medium;">कोणती आणि किती शेवई हवी ते निवडा</label></h4><br><br>
-        
-        <div class="item">
-            <span>गव्हाची शेवई - ९० रु/kg</span>
-            <select id="qty_gahu" onchange="calculatePrice()">
-                <option value="0">0 Kg</option>
-                <option value="1">1 Kg</option>
-                <option value="2">2 Kg</option>
-                <option value="3">3 Kg</option>
-                <option value="4">4 Kg</option>
-                <option value="5">5 Kg</option>
-                <option value="10">10 Kg</option>
-            </select>
-        </div>
-        
-        <div class="item">
-            <span>रवा शेवई - ७० रु/kg</span>
-            <select id="qty_rava" onchange="calculatePrice()">
-                <option value="0">0 Kg</option>
-                <option value="1">1 Kg</option>
-                <option value="2">2 Kg</option>
-                <option value="3">3 Kg</option>
-                <option value="4">4 Kg</option>
-                <option value="5">5 Kg</option>
-                <option value="10">10 Kg</option>
-            </select>
+    <div class="home-info">
+        <!-- मुख्य वैशिष्ट्ये -->
+        <div class="usp-list">
+            <p>🏠 <strong>आईच्या हातची चव, घरगुती स्वच्छता</strong></p>
+            <p>💛 <strong>100% शुद्ध, कोणतेही प्रिझर्वेटिव्ह नाही</strong></p>
+            <p>🌿 <strong>केमिकल फ्री | हाताने बनवलेल्या | पारंपरिक पद्धत</strong></p>
         </div>
 
-        <div class="item">
-            <span>मैदा शेवई - ९० रु/kg</span>
-            <select id="qty_maida" onchange="calculatePrice()">
-                <option value="0">0 Kg</option>
-                <option value="1">1 Kg</option>
-                <option value="2">2 Kg</option>
-                <option value="3">3 Kg</option>
-                <option value="4">4 Kg</option>
-                <option value="5">5 Kg</option>
-                <option value="10">10 Kg</option>
-            </select>
+        <!-- खासियत बॉक्स -->
+        <div class="speciality-box">
+            <h2>🌟 आमची खासियत 🌟</h2>
+            <p>
+                बारीक रव्याच्या, गव्हाच्या पिठाच्या, मैद्याच्या, 
+                सूजीच्या शेवया करून व विकत मिळतील.
+            </p>
+            <p class="fresh-tag">
+                🌾 <strong>दरोज ताज्या शेवया तयार केल्या जातात</strong>
+            </p>
         </div>
-        
-        <hr>
-        <p><strong>एकूण किंमत: ₹<span id="totalPrice">0</span></strong></p>
-    </div>
-    
-    <label>पत्ता:</label><br>
-    <input type="text" id="customerAddress" placeholder="घराचा पत्ता"><br><br> 
-    
-    <button type="button" onclick="generateSummary()">ऑर्डर करा</button>
 
-    <!-- हा div सगळ्यात महत्वाचा आहे. हाच मिसिंग होता -->
-<div id="orderSummary" style="display: none; margin-top: 20px; padding: 15px; border: 2px solid #28a745; border-radius: 8px; background-color: #f0fff4;">
+        <button class="cta-btn" onclick="document.querySelector('[data-target=order]').click()">
+            आत्ताच ऑर्डर करा →
+        </button>
+    </div>
 </div>
+
+    <!-- प्रोडक्ट्स सेक्शन -->
+    <div class="products content-section" id="products">
+            <h2>🍜 शेवईचे प्रकार व वैशिष्ट्ये</h2>
+
+        <!-- शेवईचे प्रकार -->
+        <div class="product-types">
+            <div class="product-card">
+                <h3>🥛 बारीक शेवई</h3>
+                <p class="product-use">➜ खीर, दूध शेवईसाठी उत्तम</p>
+                <ul class="product-features">
+                    <li>✓ 2 मिनिटात शिजते</li>
+                    <li>✓ तुटत नाही</li>
+                    <li>✓ मऊसर राहते</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3>🍛 मध्यम शेवई</h3>
+                <p class="product-use">➜ उपमा, मसाला शेवई, भातासाठी</p>
+                <ul class="product-features">
+                    <li>✓ नॉन-स्टिकी</li>
+                    <li>✓ प्रत्येक शेव वेगळी</li>
+                    <li>✓ चवीला खमंग</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <h3>🍝 जाड शेवई</h3>
+                <p class="product-use">➜ नूडल्स, चायनीज स्टाईलसाठी</p>
+                <ul class="product-features">
+                    <li>✓ रेस्टॉरंटसारखी चव</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- प्रॉडक्ट डिटेल्स -->
+        <div class="product-details-box">
+            <h2>📦 प्रॉडक्ट डिटेल्स</h2>
+            <ul class="details-list">
+                <li>✔️ उच्च प्रतीचा रवा/गहू वापरला जातो</li>
+                <li>✔️ सूर्यप्रकाशात नैसर्गिकरित्या वाळवलेल्या</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <!-- आरोग्य फायदे -->
+        <div class="health-benefits">
+            <h2>💪 आरोग्यासाठी फायदे</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">🍀 <strong>पचायला हलक्या</strong> - लहान मुलांपासून वृद्धांपर्यंत उत्तम</div>
+                <div class="benefit-item">🍀 <strong>प्रोटीन आणि फायबर युक्त</strong> - पोट भरते, एनर्जी मिळते</div>
+                <div class="benefit-item">🍀 <strong>कमी तेलात बनते</strong> - डाएट फ्रेंडली</div>
+                <div class="benefit-item">🍀 <strong>कोलेस्टेरॉल फ्री</strong> - हृदयासाठी चांगल्या</div>
+                <div class="benefit-item full-width">🍀 <strong>नैसर्गिक घटक</strong> - कोणतेही आर्टिफिशियल कलर/फ्लेवर नाही</div>
+            </div>
+        </div>
+
+        <hr>
+        <h2>किंमत यादी:</h2>
+        <table>
+            <tr>
+                <th>प्रॉडक्ट</th>
+                <th>पॅकिंग</th>
+                <th>किंमत</th>
+            </tr>
+            <tr>
+                <td>गहू शेवई</td>
+                <td>१ किलो</td>
+                <td>₹९०</td>
+            </tr>
+            <tr>
+                <td>रवा शेवई</td>
+                <td>१ किलो</td>
+                <td>₹७०</td>
+            </tr>
+            <tr>
+                <td>मैदा शेवई</td>
+                <td>१ किलो</td>
+                <td>₹९०</td>
+            </tr>
+        </table>
+        <button class="cta-btn" onclick="document.querySelector('[data-target=order]').click()">
+            ही शेवई ऑर्डर करा →
+        </button>
+    </div>
+
+    <!-- ऑर्डर सेक्शन -->
+<!-- ऑर्डर सेक्शन -->
+<div class="order content-section" id="order">
+    <h2>🚚 ऑर्डर व डिलिव्हरी</h2>
+
+    <!-- डिलिव्हरी माहिती बॉक्स -->
+    <div class="delivery-info-box">
+        <ul class="delivery-list">
+            <li>✅ फोन/WhatsApp वरून ऑर्डर स्वीकारल्या जातील</li>
+            <li>✅ <strong>सातारा शहरात फ्री होम डिलिव्हरी</strong> | मिन. ऑर्डर 2kg</li>
+            <li>💳 <strong>पेमेंट:</strong> कॅश, GPay, PhonePe, UPI उपलब्ध</li>
+        </ul>
+        
+        <p class="order-tagline">
+            👉 <strong>आजच ऑर्डर करा आणि फरक अनुभवा!</strong><br>
+            🙏 <em>एकदा नक्की ट्राय करा, चव आवडेलच!</em> 🙏
+        </p>
+        
+        <p class="terms">_⚠️ नियम व अटी लागू_</p>
+    </div>
+
+    <hr>
+
+    <!-- कॅल्क्युलेटर फॉर्म सुरू -->
+    <h3>तुमची ऑर्डर नोंदवा:</h3>
+    <form>
+        <label>तुमचं नाव:</label><br>
+        <input type="text" id="customerName" placeholder="पूर्ण नाव लिहा"><br><br>
+
+        <label>मोबाईल नंबर:</label><br>
+        <input type="tel" id="customerMobile" placeholder="१० अंकी मोबाईल नंबर"><br><br>
+        
+        <div class="calculator">
+            <h4><label style="font-size: medium;">शेवईचा प्रकार, साईज आणि वजन निवडा</label></h4><br>
+            
+            <div id="items-container">
+                <!-- आयटम 1 -->
+                <div class="item calc-row" data-item="1">
+                    <div class="calc-select">
+                        <label>प्रकार:</label>
+                        <select class="type-select" onchange="calculatePrice()">
+                            <option value="0">निवडा</option>
+                            <option value="90">गव्हाची शेवई</option>
+                            <option value="70">रवा शेवई</option>
+                            <option value="90">मैदा शेवई</option>
+                        </select>
+                    </div>
+                    <div class="calc-select">
+                        <label>साईज:</label>
+                        <select class="size-select">
+                            <option value="बारीक">बारीक</option>
+                            <option value="मध्यम">मध्यम</option>
+                            <option value="जाड">जाड</option>
+                        </select>
+                    </div>
+                    <div class="calc-select">
+                        <label>वजन:</label>
+                        <select class="qty-select" onchange="calculatePrice()">
+                            <option value="0">0 Kg</option>
+                            <option value="1">1 Kg</option>
+                            <option value="2">2 Kg</option>
+                            <option value="3">3 Kg</option>
+                            <option value="5">5 Kg</option>
+                            <option value="10">10 Kg</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">❌</button>
+                </div>
+
+                <!-- आयटम 2 -->
+                <div class="item calc-row" data-item="2">
+                    <div class="calc-select">
+                        <label>प्रकार:</label>
+                        <select class="type-select" onchange="calculatePrice()">
+                            <option value="0">निवडा</option>
+                            <option value="90">गव्हाची शेवई</option>
+                            <option value="70">रवा शेवई</option>
+                            <option value="90">मैदा शेवई</option>
+                        </select>
+                    </div>
+                    <div class="calc-select">
+                        <label>साईज:</label>
+                        <select class="size-select">
+                            <option value="बारीक">बारीक</option>
+                            <option value="मध्यम">मध्यम</option>
+                            <option value="जाड">जाड</option>
+                        </select>
+                    </div>
+                    <div class="calc-select">
+                        <label>वजन:</label>
+                        <select class="qty-select" onchange="calculatePrice()">
+                            <option value="0">0 Kg</option>
+                            <option value="1">1 Kg</option>
+                            <option value="2">2 Kg</option>
+                            <option value="3">3 Kg</option>
+                            <option value="5">5 Kg</option>
+                            <option value="10">10 Kg</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">❌</button>
+                </div>
+
+                <!-- आयटम 3 -->
+                <div class="item calc-row" data-item="3">
+                    <div class="calc-select">
+                        <label>प्रकार:</label>
+                        <select class="type-select" onchange="calculatePrice()">
+                            <option value="0">निवडा</option>
+                            <option value="90">गव्हाची शेवई</option>
+                            <option value="70">रवा शेवई</option>
+                            <option value="90">मैदा शेवई</option>
+                        </select>
+                    </div>
+                    <div class="calc-select">
+                        <label>साईज:</label>
+                        <select class="size-select">
+                            <option value="बारीक">बारीक</option>
+                            <option value="मध्यम">मध्यम</option>
+                            <option value="जाड">जाड</option>
+                        </select>
+                    </div>
+                    <div class="calc-select">
+                        <label>वजन:</label>
+                        <select class="qty-select" onchange="calculatePrice()">
+                            <option value="0">0 Kg</option>
+                            <option value="1">1 Kg</option>
+                            <option value="2">2 Kg</option>
+                            <option value="3">3 Kg</option>
+                            <option value="5">5 Kg</option>
+                            <option value="10">10 Kg</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">❌</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-more-btn" onclick="addItem()">
+                ➕ आणखी शेवई ऍड करा
+            </button>
+            
+            <hr>
+            <p><strong>एकूण किंमत: ₹<span id="totalPrice">0</span></strong></p>
+        </div>
+        <!-- calculator div संपला -->
+        
+        <label>पत्ता:</label><br>
+        <input type="text" id="customerAddress" placeholder="घराचा पत्ता"><br><br> 
+        
+        <button type="button" onclick="generateSummary()">ऑर्डर करा</button>
+
+        <div id="orderSummary" style="display: none; margin-top: 20px; padding: 15px; border: 2px solid #28a745; border-radius: 8px; background-color: #f0fff4;">
+        </div>
     </form>
 
-    <!-- बॅकएंडसाठी लपलेला फॉर्म. हा दिसणार नाही -->
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+</div>
+
+
+    <!-- संपर्क सेक्शन -->
+    <div class="contact content-section" id="contact">
+        <h2>📞 संपर्क माहिती</h2>
     
+        <div class="contact-card">
+            <div class="contact-header">
+                <h1>🌾 धनलक्ष्मी फूड्स 🌾</h1>
+                <h3 class="sanskrit-tag">॥ आहारा: सात्विकप्रिया: ॥</h3>
+                <!-- <h3>धनलक्ष्मी फूड्स</h3> -->
+            <hr class="contact-divider">
+
+                <p class="proprietor">प्रो. <strong>श्री. मयूर हणमंत राऊत</strong></p>
+            </div>
+
+            <div class="contact-details">
+                <div class="contact-item">
+                    <span class="icon">📍</span>
+                    <div>
+                        <strong>पत्ता:</strong><br>
+                        झेंडा चौक, नवीन एमआयडीसी,<br>
+                        सातारा - 415004
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <span class="icon">📱</span>
+                    <div>
+                        <strong>मोबाईल:</strong><br>
+                        <a href="tel:9561297071" class="phone-link">९५६१२९७०७१</a> | 
+                        <a href="tel:8177990049" class="phone-link">८१७७९९००४९</a> | 
+                        <a href="tel:9766295841" class="phone-link">९७६६२९५८४१</a>
+                    </div>
+            </div>
+        </div>
+
+            <div class="contact-buttons">
+                <a href="https://wa.me/919561297071" class="whatsapp-btn" target="_blank">
+                    <span>💬</span> WhatsApp वर मेसेज करा
+                </a>
+                <a href="tel:9561297071" class="call-btn">
+                    <span>📞</span> आत्ताच कॉल करा
+                </a>
+            </div>
+        </div>
     </div>
+   
+   
+    <!-- तुझा बाकीचा सगळा HTML कोड इथे संपतो -->
 
-    <div class = "contact">
-    <hr>
-    
-    <h2>संपर्क करा:</h2>
-    <p>
-        <strong>फोन:</strong> 9561297071 <br>
-        <strong>डिलिव्हरी:</strong> सातारा मध्ये फ्री होम डिलिव्हरी (मिन.२ किलो)
-    </p>
-    <a href="https://wa.me/919561297071">WhatsApp वर मेसेज करा</a>
-
-    </div>
-
+    <!-- ===== JavaScript इथून सुरू ===== -->
     <script>
-    // पॉपअप साठी
-    // function showOrderMessage() {
-    //     alert("धन्यवाद! तुमची ऑर्डर नोंद झाली आहे. आम्ही लवकरच तुमच्याशी संपर्क करू.");
-    // }
 
-    // कॅल्क्युलेटर साठी Step 2
-    function calculatePrice() {
-            // 1. प्रत्येक शेवईचा रेट इथे लिहिला. बदलायचा असेल तर इथे बदल.
-    let rate_gahu = 90;
-    let rate_rava = 70;
-    let rate_maida = 90;
+        // लोगो क्लिकवर होमवर जा
+        document.querySelector('.nav-logo').addEventListener('click', function() {
+            document.querySelector('[data-target=home]').click();
+            });
 
-    // 2. प्रत्येक ड्रॉपडाऊनमधून प्रमाण वाच
-    let qty_gahu = document.getElementById("qty_gahu").value;
-    let qty_rava = document.getElementById("qty_rava").value;
-    let qty_maida = document.getElementById("qty_maida").value;
+        // नेव्हिगेशन लॉजिक
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetId = this.getAttribute('data-target');
+                
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                document.getElementById(targetId).classList.add('active');
+                
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
 
-    // 3. प्रत्येकाची वेगळी किंमत काढ: रेट * प्रमाण
-    let total_gahu = rate_gahu * qty_gahu;
-    let total_rava = rate_rava * qty_rava;
-    let total_maida = rate_maida * qty_maida;
+        // ===== कॅल्क्युलेटर JS इथून सुरू =====
+        let itemCounter = 3; // डिफॉल्ट 3 आयटम
 
-    // 4. तिघांची बेरीज करून फायनल टोटल काढ
-    let grandTotal = total_gahu + total_rava + total_maida;
+        function addItem() {
+            itemCounter++;
+            const container = document.getElementById('items-container');
+            
+            const newItem = document.createElement('div');
+            newItem.className = 'item calc-row';
+            newItem.setAttribute('data-item', itemCounter);
+            newItem.innerHTML = `
+                <div class="calc-select">
+                    <label>प्रकार:</label>
+                    <select class="type-select" onchange="calculatePrice()">
+                        <option value="0">निवडा</option>
+                        <option value="90">गव्हाची शेवई</option>
+                        <option value="70">रवा शेवई</option>
+                        <option value="90">मैदा शेवई</option>
+                    </select>
+                </div>
+                <div class="calc-select">
+                    <label>साईज:</label>
+                    <select class="size-select">
+                        <option value="बारीक">बारीक</option>
+                        <option value="मध्यम">मध्यम</option>
+                        <option value="जाड">जाड</option>
+                    </select>
+                </div>
+                <div class="calc-select">
+                    <label>वजन:</label>
+                    <select class="qty-select" onchange="calculatePrice()">
+                        <option value="0">0 Kg</option>
+                        <option value="1">1 Kg</option>
+                        <option value="2">2 Kg</option>
+                        <option value="3">3 Kg</option>
+                        <option value="5">5 Kg</option>
+                        <option value="10">10 Kg</option>
+                    </select>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeItem(this)">❌</button>
+            `;
+            
+            container.appendChild(newItem);
+        }
 
-    // 5. फायनल टोटल वेबसाईटवर दाखव
-    document.getElementById("totalPrice").innerText = grandTotal;
-    }
+        function removeItem(btn) {
+            btn.closest('.calc-row').remove();
+            calculatePrice();
+            
+            if (document.querySelectorAll('.calc-row').length === 1) {
+                document.querySelector('.remove-btn').style.display = 'none';
+            }
+        }
 
-    //समरी दाखवणे 
-    // ही URL वर स्टेप 1.8 मध्ये कॉपी केली ती इथे पेस्ट कर
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7xvczrM2l3EyHEQrq0KWOpM7TseTonyUeHklpE5_UmAQoPLZEPk27DdH__LICmRdL/exec"; 
+        function calculatePrice() {
+            let total = 0;
+            const rows = document.querySelectorAll('.calc-row');
+            
+            rows.forEach(row => {
+                let rate = Number(row.querySelector('.type-select').value);
+                let qty = Number(row.querySelector('.qty-select').value);
+                total += rate * qty;
+            });
+            
+            document.getElementById("totalPrice").innerText = total;
+        }
 
-function generateSummary() {
-    let name = document.getElementById('customerName').value;
-    let mobile = document.getElementById('customerMobile').value;
-    let address = document.getElementById('customerAddress').value;
-    
-    let gahu = Number(document.getElementById('qty_gahu').value);
-    let rava = Number(document.getElementById('qty_rava').value);
-    let maida = Number(document.getElementById('qty_maida').value);
-    
-    let total = (gahu * 90) + (rava * 70) + (maida * 90);
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7xvczrM2l3EyHEQrq0KWOpM7TseTonyUeHklpE5_UmAQoPLZEPk27DdH__LICmRdL/exec"; 
 
-    if (name.trim() === "" || mobile.trim() === "" || mobile.length !== 10) {
-        alert("कृपया नाव आणि 10 अंकी मोबाईल नंबर बरोबर भरा!");
-        return;
-    }
-    if (total === 0) {
-        alert("कृपया आधी शेवई निवडा!");
-        return;
-    }
-    
-    let orderButton = document.querySelector('button[onclick="generateSummary()"]');
-    orderButton.innerText = "ऑर्डर पाठवत आहे...";
-    orderButton.disabled = true;
+        function generateSummary() {
+            let name = document.getElementById('customerName').value;
+            let mobile = document.getElementById('customerMobile').value;
+            let address = document.getElementById('customerAddress').value;
+            
+            if (name.trim() === "" || mobile.trim() === "" || mobile.length !== 10) {
+                alert("कृपया नाव आणि 10 अंकी मोबाईल नंबर बरोबर भरा!");
+                return;
+            }
 
-    let formData = {
-        name: name,
-        mobile: mobile,
-        address: address,
-        gahu: gahu,
-        rava: rava,
-        maida: maida,
-        total: total
-    };
+            let orderItems = [];
+            let grandTotal = 0;
+            const rows = document.querySelectorAll('.calc-row');
 
-    // PART 1: बॅकएंडला शीटमध्ये सेव्ह कर - फॉर्म ट्रिक
-    let form = document.createElement('form');
-    form.method = 'POST';
-    form.action = SCRIPT_URL;
-    form.target = 'hidden_iframe';
+            rows.forEach(row => {
+                let typeSelect = row.querySelector('.type-select');
+                let rate = Number(typeSelect.value);
+                let typeName = typeSelect.options[typeSelect.selectedIndex].text;
+                let size = row.querySelector('.size-select').value;
+                let qty = Number(row.querySelector('.qty-select').value);
 
-    let input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'data';
-    input.value = JSON.stringify(formData);
-    form.appendChild(input);
+                if (rate > 0 && qty > 0) {
+                    let itemTotal = rate * qty;
+                    grandTotal += itemTotal;
+                    orderItems.push({
+                        type: typeName,
+                        size: size,
+                        qty: qty,
+                        rate: rate,
+                        total: itemTotal
+                    });
+                }
+            });
 
-    document.body.appendChild(form);
-    form.submit();
+            if (grandTotal === 0) {
+                alert("कृपया आधी शेवई निवडा!");
+                return;
+            }
+            
+            let orderButton = document.querySelector('button[onclick="generateSummary()"]');
+            orderButton.innerText = "ऑर्डर पाठवत आहे...";
+            orderButton.disabled = true;
 
-    // PART 2: कस्टमरसाठी WhatsApp लिंक ओपन कर
-    let whatsappMessage = `*नवीन ऑर्डर - धनलक्ष्मी शेवई* %0A%0A`;
-    whatsappMessage += `*नाव:* ${name} %0A`;
-    whatsappMessage += `*मोबाईल:* ${mobile} %0A`;
-    whatsappMessage += `*पत्ता:* ${address} %0A%0A`;
-    whatsappMessage += `*ऑर्डर:* %0A`;
-    if (gahu > 0) whatsappMessage += `- गहू शेवई: ${gahu} Kg %0A`;
-    if (rava > 0) whatsappMessage += `- रवा शेवई: ${rava} Kg %0A`;
-    if (maida > 0) whatsappMessage += `- मैदा शेवई: ${maida} Kg %0A`;
-    whatsappMessage += `%0A*एकूण रक्कम: ₹${total}*`;
+            let formData = {
+                name: name,
+                mobile: mobile,
+                address: address,
+                items: orderItems,
+                total: grandTotal
+            };
 
-    let whatsappURL = `https://wa.me/919561297071?text=${whatsappMessage}`;
-    window.open(whatsappURL, '_blank'); // नवीन टॅबमध्ये WhatsApp उघड
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
+            form.target = 'hidden_iframe';
 
-    // PART 3: वेबसाईटवर समरी दाखव
-    setTimeout(function() {
-        let summaryHTML = "<h4>✅ तुमची ऑर्डर नोंद झाली आहे!</h4>";
-        summaryHTML += "<p>धन्यवाद " + name + "! आम्ही लवकरच तुमच्याशी संपर्क करू.</p>";
-        summaryHTML += "<p>ऑर्डरची कॉपी WhatsApp वर पण पाठवली आहे.</p>";
-        summaryHTML += "<p><strong>एकूण रक्कम: ₹" + total + "</strong></p>";
-        
-        document.getElementById('orderSummary').innerHTML = summaryHTML;
-        document.getElementById('orderSummary').style.display = "block";
-        document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
-        
-        orderButton.innerText = "ऑर्डर झाली";
-        document.body.removeChild(form);
-    }, 1000); // 1 सेकंद थांबून मेसेज दाखव
-}
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(formData);
+            form.appendChild(input);
 
-</script>
+            document.body.appendChild(form);
+            form.submit();
+
+            let whatsappMessage = `*नवीन ऑर्डर - धनलक्ष्मी शेवई* %0A%0A`;
+            whatsappMessage += `*नाव:* ${name} %0A`;
+            whatsappMessage += `*मोबाईल:* ${mobile} %0A`;
+            whatsappMessage += `*पत्ता:* ${address} %0A%0A`;
+            whatsappMessage += `*ऑर्डर डिटेल्स:* %0A`;
+            
+            orderItems.forEach(item => {
+                whatsappMessage += `- ${item.type} (${item.size}) - ${item.qty}Kg x ₹${item.rate} = ₹${item.total} %0A`;
+            });
+            
+            whatsappMessage += `%0A*एकूण रक्कम: ₹${grandTotal}*`;
+
+            let whatsappURL = `https://wa.me/919561297071?text=${whatsappMessage}`;
+            window.open(whatsappURL, '_blank');
+
+            setTimeout(function() {
+                let summaryHTML = "<h4>✅ तुमची ऑर्डर नोंद झाली आहे!</h4>";
+                summaryHTML += "<p>धन्यवाद " + name + "! आम्ही लवकरच तुमच्याशी संपर्क करू.</p>";
+                summaryHTML += "<p><strong>ऑर्डर:</strong></p><ul>";
+                
+                orderItems.forEach(item => {
+                    summaryHTML += `<li>${item.type} (${item.size}) - ${item.qty} Kg = ₹${item.total}</li>`;
+                });
+                
+                summaryHTML += "</ul>";
+                summaryHTML += "<p><strong>एकूण रक्कम: ₹" + grandTotal + "</strong></p>";
+                
+                document.getElementById('orderSummary').innerHTML = summaryHTML;
+                document.getElementById('orderSummary').style.display = "block";
+                document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
+                
+                orderButton.innerText = "ऑर्डर झाली";
+                document.body.removeChild(form);
+            }, 1000);
+        }
+    </script>
+    <!-- ===== JavaScript इथे संपलं ===== -->
+
 </body>
 </html>
