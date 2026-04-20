@@ -11,10 +11,10 @@
     <!-- मेन्यू बार सुरू -->
     <nav class="navbar">
         <div class="nav-container">
-            <a class="nav-logo" data-target="home" style="cursor: pointer; text-decoration: none;">
-                <img src="WhatsApp Image 2026-04-18 at 4.12.56 PM.jpeg" alt="धनलक्ष्मी लोगो" class="logo-img">
-                 <span>धनलक्ष्मी फूड्स</span>
-            </a>
+            <div class="nav-logo" onclick="document.querySelector('[data-target=home]').dispatchEvent(new Event('click'))" style="cursor: pointer;">
+                <img src="Logo.jpeg" alt="धनलक्ष्मी लोगो" class="logo-img">
+                <span>धनलक्ष्मी फूड्स</span>
+            </div>
             <div class="nav-menu" id="navMenu">
                 <a class="nav-link active" data-target="home">होम</a>
                 <a class="nav-link" data-target="products">प्रोडक्ट्स</a>
