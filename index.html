@@ -362,29 +362,48 @@
     <!-- ===== JavaScript इथून सुरू ===== -->
     <script>
 
-        // लोगो क्लिकवर होमवर जा
+        // नेव्हिगेशन लॉजिक
+        // ===== हॅम्बर्गर मेन्यू टॉगल =====
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+
+            // हॅम्बर्गरवर क्लिक केल्यावर मेन्यू उघड/बंद
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // मेन्यू लिंकवर क्लिक केल्यावर मेन्यू बंद कर
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // नेव्हिगेशन लॉजिक - हे आधीच आहे
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+
+             // लोगो क्लिकवर होमवर जा
         document.querySelector('.nav-logo').addEventListener('click', function() {
             document.querySelector('[data-target=home]').click();
             });
-
-        // नेव्हिगेशन लॉजिक
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const targetId = this.getAttribute('data-target');
-                
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                document.getElementById(targetId).classList.add('active');
-                
-                document.querySelectorAll('.nav-link').forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
 
         // ===== कॅल्क्युलेटर JS इथून सुरू =====
         let itemCounter = 3; // डिफॉल्ट 3 आयटम
