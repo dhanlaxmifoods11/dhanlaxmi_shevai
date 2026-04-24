@@ -741,9 +741,9 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    bottom: 20px;
-    right: 20px;
-    width: 250px;
+    bottom: auto;
+    right: auto;
+    width: 180px;
     height: auto;
     opacity: 0.09;
     z-index: 0;
