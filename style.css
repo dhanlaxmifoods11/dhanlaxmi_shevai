@@ -741,11 +741,11 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    bottom: auto;
-    right: auto;
-    width: 180px;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
     height: auto;
-    opacity: 0.09;
+    opacity: 0.08;
     z-index: 0;
     pointer-events: none; /* इमेजवर क्लिक न होईल */
     }
