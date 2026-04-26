@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>धनलक्ष्मी ऑर्डर</title>
+    <link rel="stylesheet" href="style_app.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff6b35">
+</head>  
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="Logo.jpeg" alt="धनलक्ष्मी लोगो" class="logo">
+        </div>
+
+        <div class="form-section">
+            <h2 class="page-title">ऑर्डर नोंदवा</h2>
+            <div id="msgBox" class="msg"></div>
+
+            <div class="input-group">
+                <label>ग्राहकाचे नाव *</label>
+                <input type="text" id="custName" placeholder="पूर्ण नाव">
+            </div>
+
+            <div class="input-group">
+                <label>मोबाईल नंबर *</label>
+                <input type="tel" id="custMobile" placeholder="10 अंकी मोबाईल नंबर" maxlength="10">
+            </div>
+
+            <div class="input-group">
+                <label>पत्ता *</label>
+                <input type="text" id="custAddress" placeholder="घराचा पत्ता">
+            </div>
+
+            <div class="input-group">
+                <label>डिलिव्हरी डेट *</label>
+                <input type="date" id="deliveryDate">
+            </div>
+
+            <hr style="margin: 25px 0;">
+
+            <h3 style="margin-bottom: 15px;">ऑर्डर आयटम्स</h3>
+            <div id="itemsContainer">
+                <div class="item-row">
+                    <select class="type">
+                        <option value="">प्रकार</option>
+                        <option value="गव्हाची शेवई" data-rate="90">गव्हाची शेवई (९० ₹)</option>
+                        <option value="रवा शेवई" data-rate="70">रवा शेवई (७० ₹)</option>
+                        <option value="मैदा शेवई" data-rate="90">मैदा शेवई (९० ₹)</option>
+                    </select>
+                    <select class="size">
+                        <option value="बारीक">बारीक</option>
+                        <option value="मध्यम">मध्यम</option>
+                        <option value="जाड">जाड</option>
+                    </select>
+                    <input type="number" class="qty" placeholder="Kg" min="0" step="0.5" oninput="calculateTotal()">
+                    <input type="hidden" class="rate">
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-btn" onclick="addItem()">➕ आणखी आयटम ऍड करा</button>
+
+            <div class="total-section">
+                <h3>एकूण रक्कम: ₹<span id="finalTotal">0</span></h3>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="saveAndWhatsApp()">💾 सेव्ह करा व WhatsApp पाठवा</button>
+        </div>
+    </div>
+
+    <script src="script_app.js"></script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker registered'))
+        .catch(err => console.log('Service Worker failed:', err));
+    });
+  }
+</script>
+</body>
+</html>
