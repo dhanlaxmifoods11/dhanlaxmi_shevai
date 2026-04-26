@@ -1,0 +1,117 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; }
+
+/* कंटेनर - ट्रान्सपरंट केले वॉटरमार्कसाठी */
+.container { 
+    max-width: 600px; 
+    margin: 0 auto; 
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(2px);
+}
+
+/* बॅकग्राउंड वॉटरमार्क - क्लिअर दिसेल */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background-image: url('Logo.jpeg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* हेडर - फक्त लोगो, ऑरेंज बार मध्ये */
+.header { background: #e9e9e9; color: white; padding: 1.8px; text-align: center; position: relative; z-index: 1; }
+.logo { width: 180px; height: auto; object-fit: contain; }
+
+/* ऑर्डर नोंदवा - ऑरेंज बारच्या खाली */
+.page-title { font-size: 22px; font-weight: 700; color: #e5221e; text-align: center; margin-bottom: 20px; }
+
+.form-section { 
+    padding: 20px; 
+    position: relative;
+    z-index: 1;
+}
+.input-group { margin-bottom: 18px; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; font-size: 15px; }
+
+/* इनपुट बॉक्स - ट्रान्सपरंट */
+.input-group input, .input-group select { 
+    width: 100%; 
+    padding: 12px; 
+    border: 2px solid #ddd; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    transition: border 0.3s;
+    background: rgba(255, 255, 255, 0);
+}
+.input-group input:focus, .input-group select:focus { 
+    outline: none; 
+    border-color: #ff6b35; 
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* आयटम रो - ट्रान्सपरंट बॅकग्राउंड */
+.item-row { 
+    background: rgba(248, 249, 250, 0.7);
+    padding: 10px; 
+    border-radius: 8px; 
+    margin-bottom: 12px; 
+    display: grid; 
+    grid-template-columns: 2.5fr 1.2fr 0.8fr 40px; 
+    gap: 6px; 
+    align-items: center; 
+    border: 1px solid rgba(221, 221, 221, 0.5);
+}
+.item-row select, .item-row input { 
+    padding: 8px; 
+    border: 2px solid #ddd; 
+    border-radius: 6px; 
+    font-size: 13px; 
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.remove-btn { background: #dc3545; color: white; border: none; border-radius: 6px; padding: 8px; cursor: pointer; font-size: 16px; font-weight: bold; height: 38px; }
+.remove-btn:hover { background: #c82333; }
+
+.add-btn { background: #48e16c; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; margin-bottom: 20px; width: 100%; font-weight: 600; }
+.add-btn:hover { background: #218838; }
+
+.total-section { 
+    background: rgba(255, 243, 224, 0.8); 
+    padding: 15px; 
+    border-radius: 8px; 
+    margin: 20px 0; 
+    text-align: center; 
+    border: 2px solid #ff6b35; 
+}
+.total-section h3 { color: #ff6b35; font-size: 24px; }
+
+.submit-btn { background: #25D366; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: 600; width: 100%; margin-top: 10px; }
+.submit-btn:hover { background: #128C7E; }
+.submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.msg { padding: 15px; border-radius: 8px; margin: 15px 0; text-align: center; font-weight: 600; display: none; }
+.msg.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.msg.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+/* मोबाइल - छोट्या स्क्रीनवर सुद्धा 1 लाईन */
+@media (max-width: 500px) {
+    .item-row { grid-template-columns: 2fr 1fr 0.8fr 35px; gap: 4px; padding: 8px; }
+    .item-row select, .item-row input { padding: 6px; font-size: 12px; }
+    .remove-btn { padding: 6px; font-size: 14px; height: 34px; }
+    .logo { width: 100px; }
+    .container::before { width: 250px; height: 250px; }
+}
