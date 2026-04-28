@@ -270,7 +270,7 @@ function saveAndWhatsApp() {
         `*ऑर्डर डिटेल्स:*%0A${itemsText}%0A` +
         `💰 एकूण रक्कम: ₹${finalTotal}%0A` +
         `📅 Est. Delivery Date: ${deliveryDate}%0A%0A` +
-        `आम्ही लवकरच तुमच्याशी संपर्क करू. 🙏%0A- धनलक्ष्मी गृह उद्योग`;
+        `आम्ही लवकरच तुमच्याशी संपर्क करू. 🙏%0A- धनलक्ष्मी फूड्स`;
     
     window.open(`https://wa.me/91${custMobile}?text=${msg}`, '_blank');
     
