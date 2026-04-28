@@ -42,19 +42,32 @@
 
             <h3 style="margin-bottom: 15px;">ऑर्डर आयटम्स</h3>
             <div id="itemsContainer">
-                <div class="item-row">
-                    <select class="type">
+                <div class="item-row" data-item-id="1">
+                    <select class="type" onchange="toggleMixInputs(this)">
                         <option value="">प्रकार</option>
                         <option value="गव्हाची शेवई" data-rate="90">गव्हाची शेवई (९० ₹)</option>
                         <option value="रवा शेवई" data-rate="70">रवा शेवई (७० ₹)</option>
                         <option value="मैदा शेवई" data-rate="90">मैदा शेवई (९० ₹)</option>
+                        <option value="रवा + गहू" data-rate="90">रवा + गहू (९० ₹/Kg)</option>
+                        <option value="रवा + मैदा" data-rate="90">रवा + मैदा (९० ₹/Kg)</option>
                     </select>
                     <select class="size">
                         <option value="बारीक">बारीक</option>
                         <option value="मध्यम">मध्यम</option>
                         <option value="जाड">जाड</option>
                     </select>
-                    <input type="number" class="qty" placeholder="Kg" min="0" step="0.5" oninput="calculateTotal()">
+                    
+                    <!-- सिंगल शेवईसाठी Kg -->
+                    <div class="single-qty">
+                        <input type="number" class="qty" placeholder="Kg" min="0" step="0.5" oninput="calculateTotal()">
+                    </div>
+
+                    <!-- मिक्स शेवईसाठी Kg - सुरुवातीला लपलेलं -->
+                    <div class="mix-qty" style="display:none;">
+                        <input type="number" class="qty1" placeholder="रवा Kg" min="1" step="0.5" oninput="calculateTotal()">
+                        <input type="number" class="qty2" placeholder="गहू/मैदा Kg" min="1" step="0.5" oninput="calculateTotal()">
+                    </div>
+                    
                     <input type="hidden" class="rate">
                     <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
                 </div>
