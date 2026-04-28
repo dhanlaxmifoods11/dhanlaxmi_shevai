@@ -158,6 +158,16 @@
                 <td>१ किलो</td>
                 <td>₹९०</td>
             </tr>
+            <tr>
+                <td>रवा + गहू मिक्स</td>
+                <td>१ किलो</td>
+                <td>₹९०</td>
+            </tr>
+            <tr>
+                <td>रवा + मैदा मिक्स</td>
+                <td>१ किलो</td>
+                <td>₹९०</td>
+            </tr>
         </table>
         <button class="cta-btn" onclick="document.querySelector('[data-target=order]').click()">
             ही शेवई ऑर्डर करा →
@@ -206,9 +216,11 @@
                         <label>प्रकार:</label>
                         <select class="type-select" onchange="calculatePrice()">
                             <option value="0">निवडा</option>
-                            <option value="90">गव्हाची शेवई (९० ₹)</option>
-                            <option value="70">रवा शेवई (७० ₹)</option>
-                            <option value="90">मैदा शेवई (९० ₹)</option>
+                            <option value="90" data-type="गव्हाची शेवई">गव्हाची शेवई (९० ₹)</option>
+                            <option value="70" data-type="रवा शेवई">रवा शेवई (७० ₹)</option>
+                            <option value="90" data-type="मैदा शेवई">मैदा शेवई (९० ₹)</option>
+                            <option value="90" data-type="रवा + गहू">रवा + गहू (९० ₹/Kg)</option>
+                            <option value="90" data-type="रवा + मैदा">रवा + मैदा (९० ₹/Kg)</option>
                         </select>
                     </div>
                     <div class="calc-select">
@@ -418,8 +430,30 @@
             });
 
         // ===== कॅल्क्युलेटर JS इथून सुरू =====
-        let itemCounter = 3; // डिफॉल्ट 3 आयटम
+        let itemCounter = 1;
 
+        // प्रकार बदलला की मिक्स/सिंगल इनपुट टॉगल कर
+        function handleTypeChange(selectElement) {
+            const row = selectElement.closest('.calc-row');
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const type = selectedOption.getAttribute('data-type');
+            const singleDiv = row.querySelector('.single-qty');
+            const mixDiv = row.querySelector('.mix-qty');
+            const qty2Label = row.querySelector('.qty2-label');
+            
+            if (type === 'रवा + गहू' || type === 'रवा + मैदा') {
+                singleDiv.style.display = 'none';
+                mixDiv.style.display = 'block';
+                qty2Label.textContent = type === 'रवा + गहू' ? 'गहू:' : 'मैदा:';
+                row.querySelector('.qty-select').value = '0';
+            } else {
+                singleDiv.style.display = 'block';
+                mixDiv.style.display = 'none';
+                row.querySelector('.qty1-select').value = '0';
+                row.querySelector('.qty2-select').value = '0';
+            }
+            calculatePrice();
+        }
         function addItem() {
             itemCounter++;
             const container = document.getElementById('items-container');
@@ -435,6 +469,8 @@
                         <option value="90">गव्हाची शेवई</option>
                         <option value="70">रवा शेवई</option>
                         <option value="90">मैदा शेवई</option>
+						<option value="90" data-type="रवा + गहू">रवा + गहू (९० ₹/Kg)</option>
+                        <option value="90" data-type="रवा + मैदा">रवा + मैदा (९० ₹/Kg)</option>
                     </select>
                 </div>
                 <div class="calc-select">
@@ -456,6 +492,24 @@
                         <option value="10">10 Kg</option>
                     </select>
                 </div>
+				                <div class="calc-select mix-qty" style="display:none;">
+                    <label>रवा:</label>
+                    <select class="qty1-select" onchange="calculatePrice()">
+                        <option value="0">0 Kg</option>
+                        <option value="1">1 Kg</option>
+                        <option value="2">2 Kg</option>
+                        <option value="3">3 Kg</option>
+                        <option value="5">5 Kg</option>
+                    </select>
+                    <label class="qty2-label">गहू/मैदा:</label>
+                    <select class="qty2-select" onchange="calculatePrice()">
+                        <option value="0">0 Kg</option>
+                        <option value="1">1 Kg</option>
+                        <option value="2">2 Kg</option>
+                        <option value="3">3 Kg</option>
+                        <option value="5">5 Kg</option>
+                    </select>
+                </div>
                 <button type="button" class="remove-btn" onclick="removeItem(this)">❌</button>
             `;
             
@@ -475,10 +529,22 @@
             let total = 0;
             const rows = document.querySelectorAll('.calc-row');
             
-            rows.forEach(row => {
-                let rate = Number(row.querySelector('.type-select').value);
-                let qty = Number(row.querySelector('.qty-select').value);
-                total += rate * qty;
+           rows.forEach(row => {
+                const typeSelect = row.querySelector('.type-select');
+                let rate = Number(typeSelect.value);
+                if (rate === 0) return;
+                
+                const selectedOption = typeSelect.options[typeSelect.selectedIndex];
+                const type = selectedOption.getAttribute('data-type');
+                
+                if (type === 'रवा + गहू' || type === 'रवा + मैदा') {
+                    let qty1 = Number(row.querySelector('.qty1-select').value);
+                    let qty2 = Number(row.querySelector('.qty2-select').value);
+                    total += (qty1 + qty2) * rate;
+                } else {
+                    let qty = Number(row.querySelector('.qty-select').value);
+                    total += qty * rate;
+                }
             });
             
             document.getElementById("totalPrice").innerText = total;
@@ -496,6 +562,26 @@
                 return;
             }
 
+           // मिक्स Validation
+            let mixError = false;
+            document.querySelectorAll('.calc-row').forEach(row => {
+                const typeSelect = row.querySelector('.type-select');
+                if (typeSelect.value === '0') return;
+                const type = typeSelect.options[typeSelect.selectedIndex].getAttribute('data-type');
+                if (type === 'रवा + गहू' || type === 'रवा + मैदा') {
+                    const qty1 = Number(row.querySelector('.qty1-select').value);
+                    const qty2 = Number(row.querySelector('.qty2-select').value);
+                    if (qty1 < 1 || qty2 < 1) {
+                        mixError = true;
+                    }
+                }
+            });
+            
+            if (mixError) {
+                alert('मिक्स शेवईसाठी प्रत्येकी कमीत कमी 1 Kg पाहिजे!');
+                return;
+            }
+
             let orderItems = [];
             let grandTotal = 0;
             const rows = document.querySelectorAll('.calc-row');
@@ -503,10 +589,22 @@
             rows.forEach(row => {
                 let typeSelect = row.querySelector('.type-select');
                 let rate = Number(typeSelect.value);
+				if (rate === 0) return;
                 let typeName = typeSelect.options[typeSelect.selectedIndex].text;
                 let size = row.querySelector('.size-select').value;
                 let qty = Number(row.querySelector('.qty-select').value);
-
+				if (typeName === 'रवा + गहू' || typeName === 'रवा + मैदा') {
+                    let qty1 = Number(row.querySelector('.qty1-select').value);
+                    let qty2 = Number(row.querySelector('.qty2-select').value);
+                    qty = qty1 + qty2;
+                    if (qty1 < 1 || qty2 < 1) return;
+                    
+                    const item2Name = typeName === 'रवा + गहू' ? 'गहू' : 'मैदा';
+                    sizeDetail = `रवा ${qty1}Kg + ${item2Name} ${qty2}Kg`;
+                } else {
+                    qty = Number(row.querySelector('.qty-select').value);
+                    if (qty === 0) return;
+                    sizeDetail = size;
                 if (rate > 0 && qty > 0) {
                     let itemTotal = rate * qty;
                     grandTotal += itemTotal;
