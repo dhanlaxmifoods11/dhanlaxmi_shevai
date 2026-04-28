@@ -65,7 +65,7 @@
                 सूजीच्या शेवया करून व विकत मिळतील.
             </p>
             <p class="fresh-tag">
-                🌾 <strong>दररोज ताज्या शेवया तयार केल्या जातात</strong>
+                🌾 <strong>दरोज ताज्या शेवया तयार केल्या जातात</strong>
             </p>
         </div>
 
@@ -273,8 +273,11 @@
         <!-- calculator div संपला -->
         
         <label>पत्ता:</label><br>
-        <input type="text" id="customerAddress" placeholder="घराचा पत्ता"><br><br> 
-        
+        <input type="text" id="customerAddress" placeholder="घराचा पत्ता"><br><br>
+
+        <label>टीप / सूचना (Optional):</label><br>
+        <textarea id="customerNote" rows="2" placeholder="उदा: रवा, मैदा, गहू व मिक्स शेवई यासाठी काही अधिक ..."></textarea><br><br>
+
         <button type="button" onclick="generateSummary()">ऑर्डर करा</button>
 
         <div id="orderSummary" style="display: none; margin-top: 20px; padding: 15px; border: 2px solid #28a745; border-radius: 8px; background-color: #f0fff4;">
@@ -503,6 +506,7 @@
             let name = document.getElementById('customerName').value;
             let mobile = document.getElementById('customerMobile').value;
             let address = document.getElementById('customerAddress').value;
+            let note = document.getElementById('customerNote').value;
             
             if (name.trim() === "" || mobile.trim() === "" || mobile.length !== 10) {
                 alert("कृपया नाव आणि 10 अंकी मोबाईल नंबर बरोबर भरा!");
@@ -580,6 +584,7 @@
                 name: name,
                 mobile: mobile,
                 address: address,
+                note: note,
                 items: orderItems,
                 total: grandTotal,
                 source: 'Website'
@@ -602,8 +607,11 @@
             let whatsappMessage = `*नवीन ऑर्डर - धनलक्ष्मी शेवई* %0A%0A`;
             whatsappMessage += `*नाव:* ${name} %0A`;
             whatsappMessage += `*मोबाईल:* ${mobile} %0A`;
-            whatsappMessage += `*पत्ता:* ${address} %0A%0A`;
-            whatsappMessage += `*ऑर्डर डिटेल्स:* %0A`;
+            whatsappMessage += `*पत्ता:* ${address} %0A`;
+            if (note.trim() !== '') {
+                whatsappMessage += `*टीप:* ${note} %0A`;
+            }
+            whatsappMessage += `%0A*ऑर्डर डिटेल्स:* %0A`;
             
             orderItems.forEach(item => {
                 whatsappMessage += `- ${item.type} (${item.size}) - ${item.qty}Kg x ₹${item.rate} = ₹${item.total} %0A`;
