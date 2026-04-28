@@ -205,6 +205,7 @@ function saveAndWhatsApp() {
     const custMobile = document.getElementById('custMobile').value.trim();
     const custAddress = document.getElementById('custAddress').value.trim();
     const deliveryDate = document.getElementById('deliveryDate').value;
+    const custNote = document.getElementById('custNote').value.trim();
     
     if (!custName || !custMobile || !custAddress || !deliveryDate) {
         showMsg('कृपया सर्व माहिती भरा!', 'error');
@@ -245,6 +246,7 @@ function saveAndWhatsApp() {
         name: custName,
         mobile: custMobile,
         address: custAddress,
+        note: custNote,
         items: orderItems,
         total: finalTotal,
         deliveryDate: deliveryDate,
@@ -266,13 +268,18 @@ function saveAndWhatsApp() {
         itemsText += `- ${item.type} (${item.size}) - ${item.qty}Kg x ₹${item.rate} = ₹${item.total}%0A`;
     });
 
-    const msg = `✅ धन्यवाद ${custName}! तुमची ऑर्डर नोंद झाली आहे.%0A%0A` +
-        `*ऑर्डर डिटेल्स:*%0A${itemsText}%0A` +
-        `💰 एकूण रक्कम: ₹${finalTotal}%0A` +
-        `📅 Est. Delivery Date: ${deliveryDate}%0A%0A` +
-        `आम्ही लवकरच तुमच्याशी संपर्क करू. 🙏%0A- धनलक्ष्मी फूड्स`;
+    let msg = `✅ धन्यवाद ${custName}! तुमची ऑर्डर नोंद झाली आहे.%0A%0A` +
+            `*ऑर्डर डिटेल्स:*%0A${itemsText}%0A` +
+            `💰 एकूण रक्कम: ₹${finalTotal}%0A`;
+
+        if (custNote !== '') {
+            msg += `📝 टीप: ${custNote}%0A`;
+        }
+
+        msg += `📅 Est. Delivery Date: ${deliveryDate}%0A%0A` +
+            `आम्ही लवकरच तुमच्याशी संपर्क करू. 🙏%0A- धनलक्ष्मी फूड्स`;
     
-    window.open(`https://wa.me/91${custMobile}?text=${msg}`, '_blank');
+    window.open(`https://wa.me/919561297071?text=${msg}`, '_blank');
     
     if (navigator.onLine) {
         showMsg('✅ ऑर्डर सेव्ह झाली! कस्टमरला WhatsApp पाठवला.', 'success');
@@ -281,6 +288,7 @@ function saveAndWhatsApp() {
     document.getElementById('custName').value = '';
     document.getElementById('custMobile').value = '';
     document.getElementById('custAddress').value = '';
+    document.getElementById('custNote').value = '';
     document.getElementById('deliveryDate').valueAsDate = new Date();
     resetOrderItems();
 }

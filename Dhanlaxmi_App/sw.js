@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dhanlaxmi-v9'; // वर्जन वाढवलं म्हणजे अपडेट होईल
+const CACHE_NAME = 'dhanlaxmi-v10'; // वर्जन वाढवलं म्हणजे अपडेट होईल
 
 const urlsToCache = [
   '/dhanlaxmi_shevai/Dhanlaxmi_App/',
