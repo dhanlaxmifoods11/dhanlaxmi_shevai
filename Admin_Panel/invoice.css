@@ -600,12 +600,54 @@ body {
 }
 
 /* ========================================
-   12. RESPONSIVE - MOBILE पण DESKTOP सारखं ✅
+   12. RESPONSIVE - MOBILE = DESKTOP ✅
    ======================================== */
 @media (max-width: 768px) {
+    body {
+        padding: 5px !important;
+    }
+    
     .invoice-wrapper {
+        width: 98% !important; /* Mobile वर 98% Width */
         padding: 10px !important;
-        width: 95% !important;
-        overflow-x: auto !important; /* Table Scroll होईल */
+        margin: 5px auto !important;
+        overflow-x: auto !important; /* Table Scroll साठी */
+    }
+
+    /* Mobile वर पण Desktop Layout ठेवायला - सगळे Column Rule Override कर */
+    .header {
+        flex-direction: row !important; /* Column वरून Row */
+        text-align: left !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important; /* Space कमी असेल तर Wrap होईल */
+    }
+
+    .logo-section {
+        flex: 1 1 55% !important; /* Logo ला 55% जागा */
+    }
+    
+    .invoice-title {
+        flex: 1 1 40% !important; /* INVOICE ला 40% जागा */
+        text-align: right !important;
+        font-size: 28px !important; /* INVOICE चा Size कमी कर */
+    }
+
+    .info-section {
+        flex-direction: row !important; /* Column वरून Row */
+        gap: 10px !important;
+    }
+
+    .bill-to, .invoice-details {
+        flex: 1 1 48% !important; /* दोन्ही Box बाजू-बाजूला */
+    }
+
+    .footer-section {
+        flex-direction: row !important; /* Column वरून Row */
+    }
+
+    /* Table Mobile वर नीट दिसायला */
+    .items-table {
+        font-size: 12px !important;
+        min-width: 500px !important; /* Table छोटा होणार नाही */
     }
 }
