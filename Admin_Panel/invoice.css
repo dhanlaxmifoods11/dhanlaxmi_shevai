@@ -609,12 +609,16 @@ body {
     
     .invoice-wrapper {
         width: 98% !important; /* Mobile वर 98% Width */
-        padding: 10px !important;
-        margin: 5px auto !important;
+        max-width: 98% !important; /* Mobile वर Max-Width पण 98% */
+        height: auto !important;
+        min-height: 0 !important;
+        transform: scale(0.98) !important; /* थोडं छोटं करून A4 मध्ये फिट करायला */
+        transform-origin: top center !important;
+        padding: 5mm !important;
+        margin: 5mm auto !important;
         overflow-x: auto !important; /* Table Scroll साठी */
     }
 
-    /* Mobile वर पण Desktop Layout ठेवायला - सगळे Column Rule Override कर */
     .header {
         flex-direction: row !important; /* Column वरून Row */
         text-align: left !important;
@@ -645,7 +649,6 @@ body {
         flex-direction: row !important; /* Column वरून Row */
     }
 
-    /* Table Mobile वर नीट दिसायला */
     .items-table {
         font-size: 12px !important;
         min-width: 500px !important; /* Table छोटा होणार नाही */
