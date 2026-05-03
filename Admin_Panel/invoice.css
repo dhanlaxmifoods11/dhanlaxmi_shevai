@@ -604,12 +604,12 @@ body {
    ======================================== */
 @media (max-width: 768px) {
     body {
-        padding: 5px !important;
+        padding: 5mm !important;
     }
     
     .invoice-wrapper {
-        width: 98% !important; /* Mobile वर 98% Width */
-        max-width: 98% !important; /* Mobile वर Max-Width पण 98% */
+        width: 100% !important; /* Mobile वर 98% Width */
+        max-width: 100% !important; /* Mobile वर Max-Width पण 98% */
         height: auto !important;
         min-height: 0 !important;
         transform: scale(0.98) !important; /* थोडं छोटं करून A4 मध्ये फिट करायला */
