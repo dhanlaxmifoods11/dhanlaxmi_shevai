@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>धनलक्ष्मी - Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- 🔐 CHANGE 1: AUTH CHECK - Login नसेल तर Block -->
+    <script src="auth.js"></script>
+    <script>
+        // Page Load वर Login Check
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            alert('⚠️ Please Login First!');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#DC2626">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+    }
+    </script>
+    
+</head>
+<body>
+    <div class="admin-container">
+        <!-- वरचा हेडर -->
+        <header class="admin-header">
+            <img src="Designer.png" alt="Logo" class="admin-logo">
+            <h1>ऑर्डर डॅशबोर्ड</h1>
+            <div class="header-buttons">
+                <span id="userDisplay" style="color: white; margin-right: 15px; font-weight: 600;"></span>
+                <a href="change_password.html" class="accounts-btn" style="background: #6D4C41;">⚙️ Settings</a>
+                <button class="add-btn" onclick="openOrderModal()">+ नवीन ऑर्डर</button>
+                <a href="accounts.html" class="accounts-btn">📊 Accounts</a>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <!-- 3 स्टॅट्स चे बॉक्स - Top Customer काढला -->
+        <div class="dashboard-stats">
+            <div class="stat-card clickable" onclick="filterByCard('today')">
+                <h3>आजच्या ऑर्डर</h3>
+                <p id="todayCount">0</p>
+                <span class="card-hint">Click to Filter</span>
+            </div>
+            <div class="stat-card clickable" onclick="filterByCard('pending')">
+                <h3>पेंडिंग</h3>
+                <p id="pendingCount">0</p>
+                <span class="card-hint">Click to Filter</span>
+            </div>
+            <div class="stat-card clickable" onclick="filterByCard('sales')">
+                <h3>आजची विक्री</h3>
+                <p>₹<span id="todaySales">0</span></p>
+                <span class="card-hint">Click to Filter</span>
+            </div>
+        </div>
+
+        <!-- सर्च आणि फिल्टर -->
+        <div class="filter-row">
+            <div class="search-bar-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Order ID, नाव, मोबाईल, आयटम शोधा..." onkeyup="filterOrders()">
+            </div>
+            
+            <div class="profit-filter-row">
+                <select id="orderPeriod" onchange="handlePeriodChange()">
+                    <option value="today">आजचा</option>
+                    <option value="week">हा आठवडा</option>
+                    <option value="month" selected>हा महिना</option>
+                    <option value="year">हे वर्ष</option>
+                    <option value="all">सर्व</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="date" id="orderDatePicker" style="display:none;" onchange="filterOrders()" />
+                <input type="date" id="orderEndDatePicker" style="display:none;" onchange="filterOrders()" />
+            </div>
+
+            <select id="statusFilter" onchange="filterOrders()">
+                <option value="all">सर्व स्टेटस</option>
+                <option value="नवीन ऑर्डर">नवीन ऑर्डर</option>
+                <option value="प्रक्रिया सुरू">प्रक्रिया सुरू</option>
+                <option value="तयार">तयार</option>
+                <option value="डिलिव्हर">डिलिव्हर</option>
+            </select>
+
+            <div class="header-action-btns">
+                <button class="export-btn" onclick="exportOrders()">📊 Excel</button>
+                <button class="refresh-btn" onclick="loadOrders()">🔄 Refresh</button>
+            </div>
+        </div>
+
+        <!-- Bulk Actions Bar -->
+        <div id="bulkActionBar" class="bulk-action-bar" style="display:none;">
+            <span><b id="selectedCount">0</b> Selected</span>
+            <select id="bulkStatusChange">
+                <option value="">Status Change</option>
+                <option value="प्रक्रिया सुरू">प्रक्रिया सुरू</option>
+                <option value="तयार">तयार</option>
+                <option value="डिलिव्हर">डिलिव्हर</option>
+            </select>
+            <button onclick="bulkUpdateStatus()">Apply</button>
+            <button onclick="bulkPrint()">🖨️ Print All</button>
+            <button onclick="bulkDelete()" class="delete">🗑️ Delete</button>
+            <button onclick="clearSelection()">✖ Clear</button>
+        </div>
+
+        <!-- ऑर्डर चं टेबल -->
+        <div class="table-wrapper">
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                        <th>🚩</th>
+                        <th>ऑर्डर ID</th>
+                        <th>दिनांक</th>
+                        <th>नाव</th>
+                        <th>मोबाईल</th>
+                        <th>आयटम्स</th>
+                        <th>रक्कम</th>
+                        <th>पेमेंट</th>
+                        <th>स्टेटस</th>
+                        <th>ACTION</th>
+                        <th>STOCK</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody">
+                    <tr><td colspan="12" class="loading">लोड होत आहे...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ORDER DETAILS POPUP -->
+    <div id="orderModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalOrderId">Order Details</h2>
+            <div class="modal-body">
+                <p><strong>ग्राहकाचे नाव:</strong> <span id="modalName"></span></p>
+                <p><strong>मोबाईल:</strong> <span id="modalMobile"></span></p>
+                <p><strong>पूर्ण पत्ता:</strong></p>
+                <div id="modalAddress" class="address-box"></div>
+                <p><strong>ऑर्डर डिटेल्स:</strong></p>
+                <div id="modalItems" class="items-box"></div>
+                <p><strong>एकूण रक्कम:</strong> <span id="modalTotal" style="font-size: 18px; color: #ff6b35; font-weight: bold;"></span></p>
+                <p><strong>डिलिव्हरी तारीख:</strong> <span id="modalDelivery"></span></p>
+                <p><strong>ग्राहकाची टीप:</strong></p>
+                <div id="modalNote" class="note-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD/EDIT ORDER MODAL -->
+    <div id="addOrderModal" class="modal" style="display:none;">
+        <div class="modal-content modal-large">
+            <span class="close-btn" onclick="closeAddOrderModal()">&times;</span>
+            <h2 id="addOrderModalTitle">नवीन ऑर्डर</h2>
+            <form id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ग्राहकाचे नाव *</label>
+                        <input type="text" id="custName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>मोबाईल *</label>
+                        <input type="tel" id="custMobile" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>पत्ता</label>
+                    <textarea id="custAddress" rows="2"></textarea>
+                </div>
+                <h3>आयटम्स</h3>
+                <div id="itemsContainer"></div>
+                <button type="button" class="add-item-btn" onclick="addItemRow()">+ आयटम ॲड करा</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Delivery Date *</label>
+                        <input type="date" id="deliveryDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="orderPriority">
+                            <option value="normal">Normal</option>
+                            <option value="urgent">🚩 Urgent</option>
+                        </select>
+                    </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Total Amount</label>
+                        <input type="number" id="totalAmount" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="orderNote" rows="2"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">सेव्ह करा</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 🔐 CHANGE 3: User Name Display Script -->
+    <script>
+        // Page Load वर User Name दाखव
+        window.addEventListener('DOMContentLoaded', function() {
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('userDisplay').textContent = `👤 ${user.name}`;
+            }
+        });
+    </script>
+    
+    <script src="admin.js"></script>
+</body>
+</html>

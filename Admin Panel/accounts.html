@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>धनलक्ष्मी - Accounts & Inventory</title>
+    <link rel="stylesheet" href="accounts.css">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- वरचा हेडर -->
+        <header class="admin-header">
+            <img src="Designer.png" alt="Logo" class="admin-logo">
+            <h1>जमाखर्च आणि मालसाठा</h1>
+            <div class="header-buttons">
+                <a href="admin.html" class="accounts-btn">📦 Orders</a>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <!-- 3 Tab Buttons - FIXED: Added event parameter -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('rawmaterial', event)">कच्चा माल</button>
+            <button class="tab-btn" onclick="showTab('expenses', event)">खर्च</button>
+            <button class="tab-btn" onclick="showTab('profitloss', event)">नफा-तोटा</button>
+        </div>
+
+        <!-- ===== TAB 1: कच्चा माल ===== -->
+        <div id="rawmaterial" class="tab-content active">
+            <div class="section-header">
+                <h2>कच्चा माल मॅनेजमेंट</h2>
+                <div class="profit-filter-row">
+                    <select id="materialPeriod">
+                        <option value="daily">आजचा</option>
+                        <option value="weekly">या आठवड्याचा</option>
+                        <option value="monthly" selected>या महिन्याचा</option>
+                        <option value="yearly">या वर्षाचा</option>
+                        <option value="all">सर्व दाखवा</option>
+                    </select>
+                    <input type="date" id="materialDatePicker" style="display:none;" />
+                    <input type="month" id="materialMonthPicker" />
+                    <input type="number" id="materialYearPicker" placeholder="वर्ष" min="2020" max="2050" style="display:none; width:100px;" />
+                </div>
+                <div class="header-action-btns">
+                    <button class="export-btn" onclick="exportToExcel('rawmaterial')">📊 Excel Export</button>
+                    <button class="add-btn" onclick="openMaterialModal()">+ माल ॲड करा</button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="rawmaterialSearch" placeholder="मालाचे नाव किंवा Supplier शोधा..." onkeyup="handleSearch('rawmaterial')">
+            </div>
+
+            <!-- Low Stock Alert -->
+            <div id="lowStockAlert" class="alert-box" style="display: none;">
+                <strong>⚠️ Low Stock Alert:</strong> <span id="lowStockList"></span>
+            </div>
+
+            <!-- Raw Material Table -->
+            <div class="table-wrapper">
+                <table id="materialTable">
+                    <thead>
+                        <tr>
+                            <th>दिनांक</th>
+                            <th>माल</th>
+                            <th>Qty</th>
+                            <th>Unit</th>
+                            <th>Rate</th>
+                            <th>Total</th>
+                            <th>Supplier</th>
+                            <th>Stock</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="materialBody">
+                        <tr><td colspan="9" class="loading">लोड होत आहे...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== TAB 2: खर्च ===== -->
+        <div id="expenses" class="tab-content">
+            <div class="section-header">
+                <h2>खर्च मॅनेजमेंट</h2>
+                <div class="profit-filter-row">
+                    <select id="expensePeriod">
+                        <option value="daily">आजचा</option>
+                        <option value="weekly">या आठवड्याचा</option>
+                        <option value="monthly" selected>या महिन्याचा</option>
+                        <option value="yearly">या वर्षाचा</option>
+                        <option value="all">सर्व दाखवा</option>
+                    </select>
+                    <input type="date" id="expenseDatePicker" style="display:none;" />
+                    <input type="month" id="expenseMonthPicker" />
+                    <input type="number" id="expenseYearPicker" placeholder="वर्ष" min="2020" max="2050" style="display:none; width:100px;" />
+                </div>
+                <div class="header-action-btns">
+                    <button class="export-btn" onclick="exportToExcel('expenses')">📊 Excel Export</button>
+                    <button class="add-btn" onclick="openExpenseModal()">+ खर्च ॲड करा</button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="expensesSearch" placeholder="खर्च Category किंवा Description शोधा..." onkeyup="handleSearch('expenses')">
+            </div>
+
+            <!-- Expense Stats -->
+            <div class="expense-stats">
+                <div class="stat-card">
+                    <h3>आजचा खर्च</h3>
+                    <p>₹<span id="todayExpense">0</span></p>
+                </div>
+                <div class="stat-card">
+                    <h3>महिन्याचा खर्च</h3>
+                    <p>₹<span id="monthExpense">0</span></p>
+                </div>
+            </div>
+
+            <!-- Expense Table -->
+            <div class="table-wrapper">
+                <table id="expenseTable">
+                    <thead>
+                        <tr>
+                            <th>दिनांक</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Note</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseBody">
+                        <tr><td colspan="7" class="loading">लोड होत आहे...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== TAB 3: नफा-तोटा ===== -->
+        <div id="profitloss" class="tab-content">
+            <div class="section-header">
+                <h2>नफा-तोटा रिपोर्ट</h2>
+                <div class="profit-filter-row">
+                    <select id="profitPeriod">
+                        <option value="daily">आजचा</option>
+                        <option value="weekly">या आठवड्याचा</option>
+                        <option value="monthly" selected>या महिन्याचा</option>
+                        <option value="yearly">या वर्षाचा</option>
+                    </select>
+                    <input type="date" id="profitDatePicker" style="display:none;" />
+                    <input type="month" id="monthPicker" />
+                    <input type="number" id="yearPicker" placeholder="वर्ष" min="2020" max="2050" style="display:none; width:100px;" />
+                </div>
+            </div>
+
+            <!-- Profit Loss Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-card profit">
+                    <h3>एकूण विक्री</h3>
+                    <p>₹<span id="totalSales">0</span></p>
+                </div>
+                <div class="stat-card expense">
+                    <h3>एकूण खर्च</h3>
+                    <p>₹<span id="totalExpenses">0</span></p>
+                </div>
+                <div class="stat-card net">
+                    <h3>निव्वळ नफा/तोटा</h3>
+                    <p>₹<span id="netProfit">0</span></p>
+                </div>
+            </div>
+
+            <!-- Chart Canvas -->
+            <div class="chart-wrapper">
+                <canvas id="profitChart"></canvas>
+            </div>
+
+            <!-- Expense Breakdown -->
+            <div class="table-wrapper">
+                <h3 style="padding: 15px;">खर्चाचा तपशील</h3>
+                <table id="breakdownTable">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Total Amount</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakdownBody">
+                        <tr><td colspan="3" class="loading">डेटा नाही</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADD MATERIAL MODAL - FIXED ===== -->
+    <div id="materialModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeMaterialModal()">&times;</span>
+            <h2 id="materialModalTitle">कच्चा माल ॲड करा</h2>
+            <form id="materialForm">
+                <div class="form-group">
+                    <label>मालाचे नाव *</label>
+                    <div class="category-wrapper">
+                        <select id="matName" required>
+                            <option value="">Select Material</option>
+                        </select>
+                        <button type="button" class="add-cat-btn" onclick="addNewMaterial()">+ New</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" id="matQty" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit *</label>
+                        <select id="matUnit" required>
+                            <option value="Kg">Kg</option>
+                            <option value="Litre">Litre</option>
+                            <option value="Gram">Gram</option>
+                            <option value="Pcs">Pcs</option>
+                        </select>
+                    </div>
+                </div> <!-- FIXED: Missing </div> added here -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Rate per Unit *</label>
+                        <input type="number" id="matRate" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Min Stock Alert</label>
+                        <input type="number" id="matMinStock" step="0.01" placeholder="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Supplier</label>
+                    <input type="text" id="matSupplier">
+                </div>
+                <button type="submit" class="submit-btn">सेव्ह करा</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== ADD EXPENSE MODAL ===== -->
+    <div id="expenseModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeExpenseModal()">&times;</span>
+            <h2 id="expenseModalTitle">खर्च ॲड करा</h2>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <label>दिनांक *</label>
+                    <input type="date" id="expDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <div class="category-wrapper">
+                        <select id="expCategory" required>
+                            <option value="">Select</option>
+                            <option value="कच्चा माल">कच्चा माल</option>
+                            <option value="लाईट बिल">लाईट बिल</option>
+                            <option value="पाणी बिल">पाणी बिल</option>
+                            <option value="गॅस">गॅस</option>
+                            <option value="पगार">पगार</option>
+                            <option value="भाडं">भाडं</option>
+                            <option value="पॅकिंग मटेरियल">पॅकिंग मटेरियल</option>
+                            <option value="पेट्रोल">पेट्रोल</option>
+                            <option value="इतर">इतर</option>
+                        </select>
+                        <button type="button" class="add-cat-btn" onclick="addNewCategory()">+ New</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="expDesc">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Amount *</label>
+                        <input type="number" id="expAmount" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Mode</label>
+                        <select id="expPayment">
+                            <option value="Cash">Cash</option>
+                            <option value="Online">Online</option>
+                            <option value="Cheque">Cheque</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="expNote" rows="2"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">सेव्ह करा</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock History Modal -->
+    <div id="historyModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeHistoryModal()">&times;</span>
+            <h2 id="historyModalTitle">Stock History</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>दिनांक</th>
+                            <th>Action</th>
+                            <th>Qty</th>
+                            <th>Balance</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        <tr><td colspan="5" class="loading">लोड होत आहे...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="accounts.js"></script>
+</body>
+</html>

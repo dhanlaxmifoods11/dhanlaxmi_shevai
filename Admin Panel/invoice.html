@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - धनलक्ष्मी शेवई</title>
+
+    <!-- EXTERNAL CSS FILE - तू Update करशील -->
+    <link rel="stylesheet" href="invoice.css">
+</head>
+<body>
+    <!-- Print Button - PDF काढायला -->
+    <button class="print-btn" onclick="window.print()">🖨️ Print Invoice</button>
+
+    <!-- मुख्य Wrapper - इथे JS ने Invoice Load होईल -->
+    <div class="invoice-wrapper" id="invoiceWrapper">
+        <div class="loading">Loading Invoice...</div>
+    </div>
+
+    <script>
+        // =====================================================
+        // ========== CONFIG - इथे तू बदल करू शकतोस ============
+        // =====================================================
+
+        // COMPANY_DETAILS: तुझी Company माहिती इथे बदल
+        const COMPANY_DETAILS = {
+            name: "धनलक्ष्मी शेवई",
+            address: "R-14, Sai Complex Zenda Chowk New MIDC Degaon Road Satara 415004",
+            mobile: "+91 9561297071",
+            email: "dhanlaxmifood11@gmail.com",
+            fssai: "30260428124289835",
+            headerLogo: "Logo.jpeg", // वरचा Logo
+            signatureLogo: "Designer.png" // खालचा Logo
+        };
+
+        // TERMS: अटी व शर्ती
+        const TERMS = [
+            "विकलेला माल परत घेतला जाणार नाही व बदलून दिला जाणार नाही.",
+            "मालाची कोणतीही तक्रार असल्यास 24 तासांच्या आत कळवावे.",
+        ];
+
+        // API_URL: Google Apps Script URL
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzcQviEyybujCo-XM-CEHQXZdMYcyv2tmNAauY2HWwQ5BCyjURVxDo1wk8dEOgoiCg/exec';
+
+        // =====================================================
+        // ========== LOGIC - इथे बदल करू नकोस =================
+        // =====================================================
+
+        // STEP 1: Page Load झाल्यावर URL मधून Order IDs घेते
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ids = urlParams.get('ids');
+            if (ids) {
+                const orderIds = ids.split(',').filter(id => id.trim());
+                loadInvoices(orderIds);
+            } else {
+                document.getElementById('invoiceWrapper').innerHTML = '<div class="error">❌ Error: No Invoice ID provided<br>URL मध्ये?ids=DL043 असं Add कर</div>';
+            }
+        };
+
+        // STEP 2: Google Sheet API मधून Orders आणते
+        async function loadInvoices(orderIds) {
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'getOrders' })
+                });
+                const data = JSON.parse(await res.text());
+                if (data.error) throw new Error(data.error);
+
+                const allOrders = Array.isArray(data)? data : (data.orders || []);
+                const selectedOrders = allOrders.filter(order =>
+                    orderIds.includes(getKey(order, ['Order ID', 'OrderID']))
+                );
+
+                if (selectedOrders.length === 0) throw new Error('Order ID ' + orderIds.join(', ') + ' सापडला नाही');
+
+                document.getElementById('invoiceWrapper').innerHTML = selectedOrders.length === 1
+               ? generateInvoiceHTML(selectedOrders[0])
+                    : selectedOrders.map((o, i) => `<div class="invoice-box ${i > 0? 'page-break' : ''}">${generateInvoiceHTML(o, i+1, selectedOrders.length)}</div>`).join('');
+
+            } catch (error) {
+                console.error('API Error:', error);
+                document.getElementById('invoiceWrapper').innerHTML = `<div class="error">❌ Error: ${error.message}<br><br>F12 दाबून Console मध्ये Details बघ</div>`;
+            }
+        }
+
+        // STEP 3: एका Order साठी Complete Invoice HTML बनवते
+        function generateInvoiceHTML(order, pageNum = 1, totalPages = 1) {
+            const orderId = getKey(order, ['Order ID', 'OrderID']);
+            const name = getKey(order, ['नाव', 'Name', 'Customer Name']) || '-';
+            const mobile = getKey(order, ['मोबाईल', 'Mobile', 'Phone']) || '-';
+            const address = getKey(order, ['पत्ता', 'Address']) || '-';
+            const items = getKey(order, ['ऑर्डर डिटेल्स', 'Items', 'Order Details']);
+
+            // FIX: Extra ) काढला - मागच्या Code मध्ये Bug होता
+            let total = parseFloat(getKey(order, ['एकूण', 'Total'])) || 0;
+
+            const deliveryDate = formatDate(getKey(order, ['Actual Delivery Date', 'Delivery Date']) || getKey(order, ['Timestamp', 'Date']));
+
+            const itemsList = items.split('\n').filter(i => i.trim());
+            let itemsHTML = '';
+            let calculatedTotal = 0;
+
+            itemsList.forEach((item, index) => {
+                const match = item.match(/(.*?)\s*-\s*(\d+\.?\d*)Kg\s*x\s*₹(\d+\.?\d*)\s*=\s*₹(\d+\.?\d*)/);
+                if (match) {
+                    const itemTotal = parseFloat(match[4]);
+                    calculatedTotal += itemTotal;
+                    itemsHTML += `<tr><td>${index + 1}</td><td>${match[1].trim()}</td><td>${match[2]} Kg</td><td>₹${parseFloat(match[3]).toFixed(2)}</td><td>₹${itemTotal.toFixed(2)}</td></tr>`;
+                } else {
+                    itemsHTML += `<tr><td>${index + 1}</td><td colspan="4">${item}</td></tr>`;
+                }
+            });
+
+            if (total === 0) total = calculatedTotal;
+
+            const headerLogoHTML = COMPANY_DETAILS.headerLogo? `<img src="${COMPANY_DETAILS.headerLogo}" alt="Logo" style="max-height: 80px; margin-bottom: 10px;">` : '';
+            const signLogoHTML = COMPANY_DETAILS.signatureLogo? `<img src="${COMPANY_DETAILS.signatureLogo}" alt="Sign Logo" style="height: 60px; margin-bottom: 5px;">` : '';
+
+            // FIX: Div Properly Close केले - मागच्या Code मध्ये Missing होते
+            return `
+                <div class="invoice-content">
+                    <div class="header">
+                        <div class="company-info">
+                            ${headerLogoHTML}
+                            <h1>${COMPANY_DETAILS.name}</h1>
+                            <p>${COMPANY_DETAILS.address}</p>
+                            <p>Mobile: ${COMPANY_DETAILS.mobile} | Email: ${COMPANY_DETAILS.email}</p>
+                            <p class="fssai">FSSAI Lic No: ${COMPANY_DETAILS.fssai}</p>
+                        </div>
+                        <div class="invoice-title">
+                            <h2>INVOICE</h2>
+                            ${totalPages > 1? `<p class="page-info">Page ${pageNum} of ${totalPages}</p>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="bill-to">
+                            <h3>Bill To:</h3>
+                            <p><strong>${name}</strong></p>
+                            <p>Mobile: ${mobile}</p>
+                            <p>${address}</p>
+                        </div>
+                        <div class="invoice-meta">
+                            <table>
+                                <tr><td><strong>Invoice No:</strong></td><td>${orderId}</td></tr>
+                                <tr><td><strong>Delivery Date:</strong></td><td>${deliveryDate}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <table class="items-table">
+                        <thead><tr><th>अ.क्र.</th><th>तपशील</th><th>नग/किलो</th><th>दर</th><th>रक्कम</th></tr></thead>
+                        <tbody>${itemsHTML}</tbody>
+                    </table>
+
+                    <div class="total-section">
+                        <div class="total-left"></div>
+                        <div class="total-right">
+                            <table><tr class="grand-total"><td>एकूण रक्कम:</td><td>₹${total.toFixed(2)}</td></tr></table>
+                            <p class="amount-words">अक्षरी: ${convertToWords(Math.round(total))}</p>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <div class="terms">
+                            <h4>अटी व शर्ती:</h4>
+                            <ol>${TERMS.map(term => `<li>${term}</li>`).join('')}</ol>
+                        </div>
+                        <div class="signature-section">
+                            <div class="sign-box">
+                                ${signLogoHTML}
+                                <p>For ${COMPANY_DETAILS.name}</p>
+                                <div class="sign-line"></div>
+                                <p>Authorized Signatory</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="computer-note">This is a Computer Generated Invoice. No Signature Required.</p>
+                    <p class="thank-you">आपल्या व्यवसायाबद्दल धन्यवाद! 🙏</p>
+                </div>
+            `;
+        }
+
+        // =====================================================
+        // ========== HELPER FUNCTIONS =========================
+        // =====================================================
+
+        // getKey: Sheet मधून Key काढते - Case/Space Insensitive
+        function getKey(obj, keys) {
+            for (const key of keys) {
+                for (const orderKey in obj) {
+                    if (orderKey.replace(/\s/g, '').toLowerCase() === key.replace(/\s/g, '').toLowerCase()) {
+                        return obj[orderKey];
+                    }
+                }
+            }
+            return '';
+        }
+
+        // formatDate: Date ला 02-Oct-2025 Format मध्ये Convert करते
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            if (isNaN(date)) return '';
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = date.toLocaleString('en-US', { month: 'short' });
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        // convertToWords: Amount ला Words मध्ये Convert करते
+        function convertToWords(num) {
+            if (num === 0) return 'Rupees Zero Only';
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            function convertLessThanThousand(n) {
+                if (n === 0) return '';
+                if (n < 20) return ones[n];
+                if (n < 100) return tens[Math.floor(n / 10)] + (n % 10? ' ' + ones[n % 10] : '');
+                return ones[Math.floor(n / 100)] + ' Hundred' + (n % 100? ' ' + convertLessThanThousand(n % 100) : '');
+            }
+
+            let result = '';
+            if (num >= 100000) {
+                result += convertLessThanThousand(Math.floor(num / 100000)) + ' Lakh ';
+                num %= 100000;
+            }
+            if (num >= 1000) {
+                result += convertLessThanThousand(Math.floor(num / 1000)) + ' Thousand ';
+                num %= 1000;
+            }
+            if (num > 0) result += convertLessThanThousand(num);
+            return 'Rupees ' + result.trim() + ' Only';
+        }
+    </script>
+</body>
+</html>
