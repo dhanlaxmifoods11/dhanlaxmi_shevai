@@ -1,0 +1,470 @@
+/* ========================================
+   1. COLOR PALETTE - LIGHT ORANGE + PREMIUM
+   Logo: धनलक्ष्मी = लक्ष्मी = Gold + Warmth
+   Light Colors = Premium, Clean, Professional
+   ======================================== */
+:root {
+    /* Main Colors - Light केले */
+    --primary-orange: #F57C00;     /* Light Deep Orange - Logo Match */
+    --bright-orange: #FF9800;      /* Soft Bright Orange - Buttons */
+    --accent-gold: #FFB300;        /* Light Gold - Highlights */
+    --hover-orange: #E65100;       /* Hover साठी - Thoda Dark */
+    
+    /* Background Colors - Light + Warm */
+    --page-bg: #FFF4E6;            /* Light Peach Cream - Page BG */
+    --card-bg: #FFFEF8;            /* Warm Off-White - Invoice Card */
+    --gradient-start: #FFF4E6;     /* Gradient Start */
+    --gradient-end: #FFF8F0;       /* Gradient End */
+    
+    /* Text Colors */
+    --text-dark: #3E2723;          /* Dark Brown - Warm Text */
+    --text-gray: #6D4C41;          /* Brown Gray */
+    --text-orange: #F57C00;        /* Orange Text */
+    
+    /* Border & Shadow - Soft */
+    --border-light: #FFE0B2;       /* Light Peach Border */
+    --border-medium: #FFCC80;      /* Medium Peach Border */
+    --shadow-soft: rgba(245, 124, 0, 0.12);
+    --shadow-medium: rgba(245, 124, 0, 0.18);
+}
+
+/* ========================================
+   2. RESET
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   3. BODY - LIGHT PEACH BACKGROUND
+   कारण: धनलक्ष्मी = Warm, Welcoming, Premium
+   #FFF4E6 = Light Peach - डोळ्यांना शांत, Watermark Clear
+   ======================================== */
+body {
+    font-family: 'Noto Sans Devanagari', Arial, sans-serif;
+    background: var(--page-bg); /* #FFF4E6 - Light Peach */
+    background-image: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    padding: 25px;
+    color: var(--text-dark);
+    min-height: 100vh;
+}
+
+/* ========================================
+   4. PRINT BUTTON - SOFT BRIGHT ORANGE
+   कारण: Light Theme मध्ये Soft Orange छान दिसतो
+   ======================================== */
+.print-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--bright-orange), var(--primary-orange));
+    color: white;
+    border: none;
+    padding: 13px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 4px 14px var(--shadow-medium);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+.print-btn:hover {
+    background: linear-gradient(135deg, var(--primary-orange), var(--hover-orange));
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--shadow-medium);
+}
+.print-btn:active {
+    transform: translateY(-1px);
+}
+
+/* ========================================
+   5. INVOICE WRAPPER - WARM OFF-WHITE CARD
+   कारण: Page Peach आहे, Card Off-White = Premium Depth
+   Border: Light Orange - Soft Look
+   ======================================== */
+.invoice-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--card-bg); /* #FFFEF8 - Warm Off-White */
+    box-shadow: 0 10px 40px var(--shadow-soft);
+    border: 2px solid var(--border-medium); /* Light Peach Border */
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* ========================================
+   6. INVOICE CONTENT - Watermark Container
+   ======================================== */
+.invoice-content {
+    position: relative;
+    padding: 50px;
+    overflow: hidden;
+}
+
+/* ========================================
+   7. WATERMARK - FIXED POSITION ✅ STABLE
+   बदल: position: absolute → position: fixed
+   कारण: Scroll केलं तरी Watermark जागेवर राहतो
+   width: 100vw + height: 100vh = Full Screen Cover
+   ======================================== */
+.invoice-content::before {
+    content: '';
+    position: fixed; /* ← महत्वाचा बदल: absolute → fixed */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw; /* Full Screen Width */
+    height: 100vh; /* Full Screen Height */
+    background-image: url('Logo.jpeg');
+    background-size: 650px; /* Watermark Size Control */
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.10; /* 0.08 ते 0.13 मध्ये Adjust कर */
+    z-index: 0;
+    pointer-events: none;
+    /* Watermark ला Soft Orange Tint */
+    /* filter: sepia(0.8) saturate(4) hue-rotate(-15deg) brightness(1.1) contrast(0.9); */
+}
+
+/* Print मध्ये Watermark Stable + Clear */
+@media print {
+   .invoice-content::before {
+        position: fixed; /* Print मध्ये पण Fixed */
+        opacity: 0.18; /* Print मध्ये जास्त दिसावं */
+        filter: sepia(0.9) saturate(6) hue-rotate(-15deg) brightness(0.6) contrast(1.2);
+    }
+}
+
+/* Watermark च्या वर Content */
+.invoice-content > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   8. HEADER - COMPACT + SMALL FONT
+   बदल: Font Size कमी, Margin/Padding कमी
+   कारण: Invoice मध्ये जागा वाचावी, Professional Look
+   ======================================== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px; /* 40px → 25px */
+    padding-bottom: 18px; /* 25px → 18px */
+    border-bottom: 4px solid;
+    border-image: linear-gradient(90deg, 
+        var(--primary-orange) 0%, 
+        var(--bright-orange) 50%, 
+        var(--primary-orange) 100%) 1;
+}
+.company-info { flex: 1; }
+.company-info h1 {
+    color: var(--primary-orange);
+    font-size: 28px; /* 34px → 28px */
+    margin: 8px 0; /* 12px → 8px */
+    font-weight: 800;
+    text-shadow: 1px 1px 3px rgba(245, 124, 0, 0.12);
+    letter-spacing: 0.5px; /* 0.8px → 0.5px */
+}
+.company-info p {
+    margin: 4px 0; /* 7px → 4px */
+    font-size: 13px; /* 14px → 13px */
+    color: var(--text-gray);
+    line-height: 1.5; /* 1.7 → 1.5 */
+}
+.fssai {
+    font-weight: bold;
+    color: var(--primary-orange);
+    margin-top: 10px; /* 14px → 10px */
+    padding: 5px 12px; /* 7px 14px → 5px 12px */
+    background: var(--page-bg);
+    border-left: 4px solid var(--bright-orange);
+    display: inline-block;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    font-size: 13px; /* Add केलं */
+}
+.invoice-title { text-align: right; }
+.invoice-title h2 {
+    font-size: 34px; /* 42px → 34px */
+    color: var(--primary-orange);
+    margin: 0;
+    letter-spacing: 3px; /* 4px → 3px */
+    font-weight: 900;
+}
+.page-info {
+    font-size: 13px; /* 14px → 13px */
+    color: var(--text-gray);
+    margin-top: 5px; /* 8px → 5px */
+    font-weight: 600;
+}
+
+/* ========================================
+   9. INFO SECTION
+   ======================================== */
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 42px;
+    gap: 42px;
+}
+.bill-to { flex: 1; }
+.bill-to h3 {
+    color: var(--primary-orange);
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-bottom: 3px solid var(--accent-gold);
+    padding-bottom: 9px;
+    font-weight: 800;
+}
+.bill-to p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.9;
+}
+.invoice-meta { flex: 1; }
+.invoice-meta table { width: 100%; }
+.invoice-meta td {
+    padding: 11px;
+    font-size: 14px;
+}
+.invoice-meta td:first-child {
+    font-weight: bold;
+    color: var(--primary-orange);
+}
+
+/* ========================================
+   10. ITEMS TABLE - SOFT ORANGE HEADER
+   कारण: Light Theme मध्ये Soft Colors Professional
+   ======================================== */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 42px;
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+.items-table thead {
+    background: linear-gradient(135deg, var(--primary-orange), var(--bright-orange));
+    color: white;
+}
+.items-table th {
+    padding: 17px 15px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.items-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 14px;
+}
+.items-table tbody tr {
+    transition: all 0.2s ease;
+}
+.items-table tbody tr:hover {
+    background: var(--page-bg);
+    transform: scale(1.01);
+}
+.items-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.items-table th:first-child,
+.items-table td:first-child {
+    width: 75px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-orange);
+    background: var(--page-bg);
+}
+
+/* ========================================
+   11. TOTAL SECTION - SOFT ORANGE GRAND TOTAL
+   कारण: Light Theme मध्ये Soft Gradient Premium
+   ======================================== */
+.total-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 42px;
+    gap: 42px;
+}
+.total-left { flex: 1; }
+.total-right {
+    flex: 1;
+    max-width: 460px;
+}
+.total-right table {
+    width: 100%;
+    border: 3px solid var(--bright-orange);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px var(--shadow-medium);
+}
+.total-right td {
+    padding: 17px;
+    font-size: 17px;
+}
+.grand-total {
+    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--bright-orange) 100%);
+    color: white;
+    font-weight: 900;
+    font-size: 24px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.25);
+}
+.amount-words {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--page-bg);
+    border-left: 5px solid var(--primary-orange);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-dark);
+    border-radius: 5px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+/* ========================================
+   12. FOOTER SECTION - SIGN BOX CLEAN
+   Background काढला, Dashed Border काढला
+   कारण: Photo मध्ये Box जास्त Highlight होतोय
+   ======================================== */
+.footer-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding-top: 28px;
+    border-top: 3px solid var(--border-light);
+}
+.terms {
+    flex: 1;
+    margin-right: 40px;
+}
+.terms h4 {
+    color: var(--primary-orange);
+    font-size: 18px;
+    margin-bottom: 14px;
+    font-weight: 800;
+}
+.terms ol {
+    margin-left: 24px;
+    font-size: 13px;
+    color: var(--text-gray);
+}
+.terms li {
+    margin: 7px 0;
+    line-height: 1.8;
+}
+.signature-section {
+    flex: 1;
+    text-align: center;
+}
+
+/* SIGN-BOX - BACKGROUND काढला ✅ */
+/* आधी: border: 3px dashed + background: var(--page-bg) */
+/* आता: Clean, फक्त Text + Line */
+.sign-box {
+    margin-top: 28px;
+    padding: 0; /* Padding काढला */
+    border: none; /* Dashed Border काढला */
+    background: transparent; /* Background काढला */
+}
+.sign-box p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: var(--primary-orange);
+    font-weight: 700;
+}
+.sign-line {
+    width: 250px;
+    height: 2px;
+    background: var(--primary-orange);
+    margin: 55px auto 14px;
+    border-radius: 2px;
+}
+.computer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-gray);
+    margin-top: 25px;
+    font-style: italic;
+}
+.thank-you {
+    text-align: center;
+    font-size: 19px;
+    color: var(--primary-orange);
+    margin-top: 14px;
+    font-weight: bold;
+}
+
+/* ========================================
+   13. LOADING आणि ERROR
+   ======================================== */
+.loading {
+    text-align: center;
+    padding: 75px;
+    font-size: 21px;
+    color: var(--primary-orange);
+    font-weight: 700;
+}
+.error {
+    text-align: center;
+    padding: 55px;
+    color: #D32F2F;
+    font-size: 16px;
+    background: #FFEBEE;
+    border: 3px solid #D32F2F;
+    border-radius: 10px;
+    margin: 20px;
+}
+.page-break {
+    page-break-before: always;
+}
+
+/* ========================================
+   14. PRINT SETTINGS - WHITE BG FOR PRINT
+   Watermark Soft Orange - Print मध्ये Clear
+   ======================================== */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+   .print-btn {
+        display: none;
+    }
+   .invoice-wrapper {
+        box-shadow: none;
+        max-width: 100%;
+        border: 2px solid var(--primary-orange);
+        border-radius: 0;
+    }
+   .invoice-content {
+        padding: 32px;
+    }
+   .invoice-content::before {
+        opacity: 0.18; /* Print मध्ये जास्त दिसावं */
+        filter: sepia(0.9) saturate(6) hue-rotate(-15deg) brightness(0.6) contrast(1.2);
+    }
+   .page-break {
+        page-break-before: always;
+    }
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+}
