@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice - धनलक्ष्मी शेवई</title>
+    <title>Invoice - धनलक्ष्मी फूड्स</title>
+    <link rel="stylesheet" href="invoice.css?v=2">
 
-    <!-- EXTERNAL CSS FILE - तू Update करशील -->
-    <link rel="stylesheet" href="invoice.css">
 </head>
 <body>
     <!-- Print Button - PDF काढायला -->
@@ -30,7 +29,7 @@
             email: "dhanlaxmifood11@gmail.com",
             fssai: "30260428124289835",
             headerLogo: "Logo.jpeg", // वरचा Logo
-            signatureLogo: "Designer.png" // खालचा Logo
+            signatureLogo: "logo_des.jpeg" // खालचा Logo
         };
 
         // TERMS: अटी व शर्ती
@@ -77,7 +76,7 @@
                 if (selectedOrders.length === 0) throw new Error('Order ID ' + orderIds.join(', ') + ' सापडला नाही');
 
                 document.getElementById('invoiceWrapper').innerHTML = selectedOrders.length === 1
-               ? generateInvoiceHTML(selectedOrders[0])
+              ? generateInvoiceHTML(selectedOrders[0])
                     : selectedOrders.map((o, i) => `<div class="invoice-box ${i > 0? 'page-break' : ''}">${generateInvoiceHTML(o, i+1, selectedOrders.length)}</div>`).join('');
 
             } catch (error) {
@@ -94,7 +93,6 @@
             const address = getKey(order, ['पत्ता', 'Address']) || '-';
             const items = getKey(order, ['ऑर्डर डिटेल्स', 'Items', 'Order Details']);
 
-            // FIX: Extra ) काढला - मागच्या Code मध्ये Bug होता
             let total = parseFloat(getKey(order, ['एकूण', 'Total'])) || 0;
 
             const deliveryDate = formatDate(getKey(order, ['Actual Delivery Date', 'Delivery Date']) || getKey(order, ['Timestamp', 'Date']));
@@ -119,7 +117,6 @@
             const headerLogoHTML = COMPANY_DETAILS.headerLogo? `<img src="${COMPANY_DETAILS.headerLogo}" alt="Logo" style="max-height: 80px; margin-bottom: 10px;">` : '';
             const signLogoHTML = COMPANY_DETAILS.signatureLogo? `<img src="${COMPANY_DETAILS.signatureLogo}" alt="Sign Logo" style="height: 60px; margin-bottom: 5px;">` : '';
 
-            // FIX: Div Properly Close केले - मागच्या Code मध्ये Missing होते
             return `
                 <div class="invoice-content">
                     <div class="header">
@@ -171,10 +168,8 @@
                         </div>
                         <div class="signature-section">
                             <div class="sign-box">
-                                ${signLogoHTML}
-                                <p>For ${COMPANY_DETAILS.name}</p>
-                                <div class="sign-line"></div>
-                                <p>Authorized Signatory</p>
+                                ${signLogoHTML} धनलक्ष्मी फूड्स
+                                <p style="border-top: none; padding-top: 4px; font-size: 10px; color: #80868B;">Authorized Signatory</p>
                             </div>
                         </div>
                     </div>
@@ -189,7 +184,6 @@
         // ========== HELPER FUNCTIONS =========================
         // =====================================================
 
-        // getKey: Sheet मधून Key काढते - Case/Space Insensitive
         function getKey(obj, keys) {
             for (const key of keys) {
                 for (const orderKey in obj) {
@@ -201,7 +195,6 @@
             return '';
         }
 
-        // formatDate: Date ला 02-Oct-2025 Format मध्ये Convert करते
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const date = new Date(dateStr);
@@ -212,7 +205,6 @@
             return `${day}-${month}-${year}`;
         }
 
-        // convertToWords: Amount ला Words मध्ये Convert करते
         function convertToWords(num) {
             if (num === 0) return 'Rupees Zero Only';
             const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
