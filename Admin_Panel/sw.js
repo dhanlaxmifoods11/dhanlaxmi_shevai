@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dhanlaxmi-admin-v2';
+const CACHE_NAME = 'dhanlaxmi-admin-v3';
 const urlsToCache = [
   './',
   './admin.html',

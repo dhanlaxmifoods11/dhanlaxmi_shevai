@@ -164,7 +164,7 @@
         </div>
     </div>
 
-    <!-- ADD/EDIT ORDER MODAL -->
+        <!-- ADD/EDIT ORDER MODAL -->
     <div id="addOrderModal" class="modal" style="display:none;">
         <div class="modal-content modal-large">
             <span class="close-btn" onclick="closeAddOrderModal()">&times;</span>
@@ -184,9 +184,13 @@
                     <label>पत्ता</label>
                     <textarea id="custAddress" rows="2"></textarea>
                 </div>
+                
                 <h3>आयटम्स</h3>
-                <div id="itemsContainer"></div>
+                <div id="itemsContainer">
+                    <!-- ✅ JS इथे Dynamic Rows टाकेल. Template खाली आहे -->
+                </div>
                 <button type="button" class="add-item-btn" onclick="addItemRow()">+ आयटम ॲड करा</button>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Delivery Date *</label>
@@ -199,6 +203,8 @@
                             <option value="urgent">🚩 Urgent</option>
                         </select>
                     </div>
+                </div> <!-- ✅ हा Div बंद करायचा राहिला होता -->
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Total Amount</label>
@@ -213,6 +219,71 @@
             </form>
         </div>
     </div>
+
+    <!-- ✅ नवीन: Item Row साठी Template. JS हा वापरेल -->
+    <!-- ✅ UPDATED: Standard Grid Layout Template -->
+<template id="itemRowTemplate">
+    <div class="item-row">
+        <div class="item-grid">
+            <!-- Row 1: प्रकार + साईज + Delete Button -->
+            <div class="form-group">
+                <label>प्रकार *</label>
+                <select class="item-type" required>
+                    <option value="">प्रकार निवडा</option>
+                    <option value="गव्हाची शेवई" data-rate="90">गव्हाची शेवई (₹90)</option>
+                    <option value="रवा शेवई" data-rate="70">रवा शेवई (₹70)</option>
+                    <option value="मैदा शेवई" data-rate="90">मैदा शेवई (₹90)</option>
+                    <option value="रवा + गहू" data-rate="90">रवा + गहू (₹90)</option>
+                    <option value="रवा + मैदा" data-rate="90">रवा + मैदा (₹90)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>साईज</label>
+                <select class="item-size">
+                    <option value="बारीक">बारीक</option>
+                    <option value="मध्यम">मध्यम</option>
+                    <option value="जाड">जाड</option>
+                </select>
+            </div>
+
+            <div class="form-group item-action-col">
+                <label>&nbsp;</label>
+                <button type="button" class="remove-item-btn">×</button>
+            </div>
+
+            <!-- Row 2: Kg/Rate/Total - Full Width -->
+            <div class="kg-rate-total-wrapper">
+                <!-- Normal Single Kg Box -->
+                <div class="form-group single-kg-box">
+                    <label>वजन Kg *</label>
+                    <input type="number" class="item-kg" placeholder="Kg" min="0.5" step="0.5">
+                </div>
+
+                <!-- Mixed Shevai साठी 2 Box -->
+                <div class="mixed-kg-box" style="display:none;">
+                    <div class="form-group">
+                        <label class="label1">रवा Kg *</label>
+                        <input type="number" class="item-rava-kg" placeholder="रवा" min="0" step="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label class="label2">गहू/मैदा Kg *</label>
+                        <input type="number" class="item-mix-kg" placeholder="गहू/मैदा" min="0" step="0.5">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Rate</label>
+                    <input type="number" class="item-rate" placeholder="Rate" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Total</label>
+                    <input type="number" class="item-total" placeholder="Total" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
     <!-- 🔐 CHANGE 3: User Name Display Script -->
     <script>

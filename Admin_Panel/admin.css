@@ -513,7 +513,8 @@ tbody tr:hover {
 }
 
 .modal-content.modal-large {
-    max-width: 800px;
+    max-width: 950px;
+    width: 90%;
 }
 
 @keyframes slide-down {
@@ -706,6 +707,109 @@ tbody tr:hover {
     border-bottom-style: solid;
 }
 
+/* ✅ Item Row Standard Layout */
+.item-row {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 40px;
+    gap: 12px;
+    align-items: end;
+}
+
+.kg-rate-total-wrapper {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.single-kg-box {
+    grid-column: 1 / 2;
+}
+
+.mixed-kg-box {
+    grid-column: 1 / 1;
+    display: flex;
+    gap: 20px;
+}
+
+.mixed-kg-box.form-group {
+    flex: 1 !important;
+    width: 140% !important;
+}
+
+.item-row.form-group {
+    margin-bottom: 0;
+}
+
+.item-row label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.item-row input,
+.item-row select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.item-row input[readonly] {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+.item-action-col {
+    display: flex;
+    align-items: flex-end;
+}
+
+.remove-item-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    height: 37px;
+    width: 40px;
+}
+
+.remove-item-btn:hover {
+    background: #c82333;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px)
+ {
+   .item-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+   .item-action-col {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        justify-self: end;
+    }
+   .kg-rate-total-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .admin-header {
@@ -746,4 +850,45 @@ tbody tr:hover {
         flex-direction: column;
         align-items: stretch;
     }
+}
+
+
+/* ✅ फक्त रवा Kg आणि गहू Kg चे Box मोठे कर */
+.mixed-kg-box {
+    grid-column: 1 / -1 !important; /* पूर्ण Row ची Width घे */
+    display: flex !important;
+    gap: 20px !important;
+}
+
+.mixed-kg-box .form-group {
+    flex: 1 !important; /* दोन्ही Box सारख्या Size चे */
+    min-width: 140px !important; /* कमीत कमी 140px Width */
+}
+
+.item-rava-kg,
+.item-mix-kg {
+    width: 100% !important;
+    min-width: 140px !important; /* Box ची Width Fix */
+    padding: 12px 14px !important;
+    font-size: 16px !important;
+    height: 48px !important; /* Height पण वाढवली */
+}
+
+/* Normal Single Kg Box पण मोठा कर */
+.single-kg-box .item-kg {
+    width: 100% !important;
+    max-width: 200px !important; /* Single Kg साठी 200px */
+    height: 48px !important;
+    padding: 12px 14px !important;
+    font-size: 16px !important;
+}
+
+/* ✅ Mixed Box Default ला लपवून ठेव */
+.mixed-kg-box {
+    display: none !important;
+}
+
+/* फक्त JS ने Show केल्यावरच दिसेल */
+.item-row .mixed-kg-box[style*="display: flex"] {
+    display: flex !important;
 }

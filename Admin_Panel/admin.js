@@ -1,6 +1,6 @@
 // =====================================================
-// ========== धनलक्ष्मी - ORDER DASHBOARD v4.6 ==========
-// ========== 2 Dropdown Items + Auto Rate =============
+// ========== धनलक्ष्मी - ORDER DASHBOARD v4.7 ==========
+// ========== Mixed Shevai Support + Website Like UI ===
 // =====================================================
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbzcQviEyybujCo-XM-CEHQXZdMYcyv2tmNAauY2HWwQ5BCyjURVxDo1wk8dEOgoiCg/exec';
@@ -505,7 +505,7 @@ function sendWhatsApp(row) {
         paymentLine = `❌ *Payment: Unpaid*%0A*Total Due:* ₹${balance}`;
     }
 
-    const msg = `*धनलक्ष्मी शेवई*%0A%0Aनमस्कार ${name},%0A%0A` +
+    const msg = `*धनलक्ष्मी फूड्स*%0A%0Aनमस्कार ${name},%0A%0A` +
         `*Order ID:* ${orderId}%0A` +
         `*Items:*%0A${items.replace(/\n/g, '%0A')}%0A%0A` +
         `*Total:* ₹${total}%0A` +
@@ -669,67 +669,127 @@ function closeAddOrderModal() {
     document.getElementById('addOrderModal').style.display = 'none';
 }
 
-// ✅ UPDATED: 2 Dropdown - प्रकार + बारीक/मध्यम/जाड
-function addItemRow() {
+// ✅ UPDATED: Template Based Row + Mixed Shevai Support
+function addItemRow(itemData = null) {
     const container = document.getElementById('itemsContainer');
-    const rowId = Date.now();
-    const row = document.createElement('div');
-    row.className = 'item-row';
+    const template = document.getElementById('itemRowTemplate');
+    const clone = template.content.cloneNode(true);
+    const row = clone.querySelector('.item-row');
+    
+    // Unique ID द्या
+    const rowId = Date.now() + Math.random();
     row.id = 'item-' + rowId;
-    row.innerHTML = `
-        <select class="item-type" onchange="updateItemRate(${rowId})">
-            <option value="">प्रकार निवडा</option>
-            <option value="गव्हाची शेवई" data-rate="90">गव्हाची शेवई (₹90)</option>
-            <option value="रवा शेवई" data-rate="70">रवा शेवई (₹70)</option>
-            <option value="मैदा शेवई" data-rate="90">मैदा शेवई (₹90)</option>
-            <option value="रवा + गहू" data-rate="90">रवा + गहू (₹90)</option>
-            <option value="रवा + मैदा" data-rate="90">रवा + मैदा (₹90)</option>
-        </select>
-        <select class="item-size" onchange="calculateTotal()">
-            <option value="बारीक">बारीक</option>
-            <option value="मध्यम">मध्यम</option>
-            <option value="जाड">जाड</option>
-        </select>
-        <input type="number" class="item-qty" placeholder="Kg" step="0.1" oninput="calculateTotal()">
-        <input type="number" class="item-rate" placeholder="Rate" step="0.01" readonly>
-        <input type="number" class="item-total" placeholder="Total" readonly>
-        <button type="button" class="remove-item-btn" onclick="removeItemRow(${rowId})">✖</button>
-    `;
+    
+    // Event Listeners जोडा
+    row.querySelector('.item-type').addEventListener('change', function() {
+        handleItemTypeChange(this);
+        updateItemRate(row);
+    });
+    row.querySelector('.item-size').addEventListener('change', () => calculateTotal());
+    row.querySelector('.item-kg').addEventListener('input', () => calculateTotal());
+    row.querySelector('.item-rava-kg').addEventListener('input', () => calculateTotal());
+    row.querySelector('.item-mix-kg').addEventListener('input', () => calculateTotal());
+    row.querySelector('.remove-item-btn').addEventListener('click', () => removeItemRow(row));
+    
     container.appendChild(row);
+    
+    // Edit Mode मध्ये Data भर
+    if (itemData) {
+        row.querySelector('.item-type').value = itemData.type;
+        handleItemTypeChange(row.querySelector('.item-type'));
+        row.querySelector('.item-size').value = itemData.size || 'बारीक';
+        
+        if (itemData.isMixed) {
+            row.querySelector('.item-rava-kg').value = itemData.ravaKg || 0;
+            row.querySelector('.item-mix-kg').value = itemData.mixKg || 0;
+        } else {
+            row.querySelector('.item-kg').value = itemData.qty || 0;
+        }
+        
+        row.querySelector('.item-rate').value = itemData.rate || 0;
+        updateItemRate(row);
+    } else {
+        updateItemRate(row);
+    }
+    
+    calculateTotal();
 }
 
-// ✅ NEW: Auto Rate Set करतो
-function updateItemRate(rowId) {
-    const row = document.getElementById('item-' + rowId);
+// ✅ NEW: Mixed Shevai साठी Box Show/Hide
+function handleItemTypeChange(selectElement) {
+    const row = selectElement.closest('.item-row');
+    const selectedType = selectElement.value;
+    const singleBox = row.querySelector('.single-kg-box');
+    const mixedBox = row.querySelector('.mixed-kg-box');
+    const label2 = row.querySelector('.label2');
+    
+    if (selectedType === 'रवा + गहू' || selectedType === 'रवा + मैदा') {
+        // Mixed Shevai - 2 Box दाखव
+        singleBox.style.display = 'none';
+        mixedBox.style.display = 'flex';
+        singleBox.querySelector('.item-kg').required = false;
+        mixedBox.querySelector('.item-rava-kg').required = true;
+        mixedBox.querySelector('.item-mix-kg').required = true;
+        
+        // Label बदल
+        if (selectedType === 'रवा + गहू') {
+            label2.innerText = 'गहू Kg *';
+        } else {
+            label2.innerText = 'मैदा Kg *';
+        }
+    } else {
+        // Normal Shevai - 1 Box दाखव
+        singleBox.style.display = 'block';
+        mixedBox.style.display = 'none';
+        singleBox.querySelector('.item-kg').required = true;
+        mixedBox.querySelector('.item-rava-kg').required = false;
+        mixedBox.querySelector('.item-mix-kg').required = false;
+    }
+    
+    updateItemRate(row);
+}
+
+function removeItemRow(row) {
+    row.remove();
+    calculateTotal();
+}
+
+// ✅ UPDATED: Auto Rate + Mixed Shevai Calculation
+function updateItemRate(row) {
     const typeSelect = row.querySelector('.item-type');
     const rateInput = row.querySelector('.item-rate');
-
     const selectedOption = typeSelect.options[typeSelect.selectedIndex];
     const rate = selectedOption.getAttribute('data-rate') || 0;
-
     rateInput.value = rate;
     calculateTotal();
 }
 
-function removeItemRow(id) {
-    document.getElementById('item-' + id)?.remove();
-    calculateTotal();
-}
-
-// ✅ UPDATED: Qty x Rate Calculation
+// ✅ UPDATED: Mixed Shevai Total Calculation
 function calculateTotal() {
     let grandTotal = 0;
     document.querySelectorAll('.item-row').forEach(row => {
-        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+        const type = row.querySelector('.item-type').value;
         const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
-        const total = qty * rate;
+        let total = 0;
+        
+        if (type === 'रवा + गहू' || type === 'रवा + मैदा') {
+            // Mixed Shevai: रवा Kg + Mix Kg * Rate
+            const ravaKg = parseFloat(row.querySelector('.item-rava-kg').value) || 0;
+            const mixKg = parseFloat(row.querySelector('.item-mix-kg').value) || 0;
+            total = (ravaKg + mixKg) * rate;
+        } else {
+            // Normal Shevai: Kg * Rate
+            const qty = parseFloat(row.querySelector('.item-kg').value) || 0;
+            total = qty * rate;
+        }
+        
         row.querySelector('.item-total').value = total.toFixed(2);
         grandTotal += total;
     });
     document.getElementById('totalAmount').value = grandTotal.toFixed(2);
 }
 
-// ✅ UPDATED: Items Format - प्रकार (Size) सहित Save
+// ✅ UPDATED: Items Format - Mixed Shevai Support
 async function handleOrderSubmit(e) {
     e.preventDefault();
 
@@ -737,14 +797,31 @@ async function handleOrderSubmit(e) {
     document.querySelectorAll('.item-row').forEach(row => {
         const type = row.querySelector('.item-type').value;
         const size = row.querySelector('.item-size').value;
-        const qty = row.querySelector('.item-qty').value;
         const rate = row.querySelector('.item-rate').value;
         const total = row.querySelector('.item-total').value;
 
-        if (type && qty) {
-            items.push(`${type} (${size}) - ${qty}Kg x ₹${rate} = ₹${total}`);
+        if (!type) return;
+
+        if (type === 'रवा + गहू' || type === 'रवा + मैदा') {
+            const ravaKg = row.querySelector('.item-rava-kg').value || 0;
+            const mixKg = row.querySelector('.item-mix-kg').value || 0;
+            const mixName = type.includes('गहू') ? 'गहू' : 'मैदा';
+            
+            if (ravaKg > 0 || mixKg > 0) {
+                items.push(`${type} (${size}) - रवा: ${ravaKg}Kg + ${mixName}: ${mixKg}Kg x ₹${rate} = ₹${total}`);
+            }
+        } else {
+            const qty = row.querySelector('.item-kg').value;
+            if (qty > 0) {
+                items.push(`${type} (${size}) - ${qty}Kg x ₹${rate} = ₹${total}`);
+            }
         }
     });
+
+    if (items.length === 0) {
+        alert('कृपया कमीत कमी 1 आयटम टाका');
+        return;
+    }
 
     const data = {
         action: editingOrderId? 'updateOrder' : 'addOrder',
@@ -752,7 +829,7 @@ async function handleOrderSubmit(e) {
         name: document.getElementById('custName').value,
         mobile: document.getElementById('custMobile').value,
         address: document.getElementById('custAddress').value,
-        items: items.join(' | '), // ✅ FIX: \n ऐवजी | वापरला
+        items: items.join(' | '),
         deliveryDate: document.getElementById('deliveryDate').value,
         priority: document.getElementById('orderPriority').value,
         total: document.getElementById('totalAmount').value,
@@ -781,6 +858,7 @@ async function handleOrderSubmit(e) {
     }
 }
 
+// ✅ UPDATED: Edit Mode मध्ये Mixed Shevai Parse कर
 function editOrderModal(row) {
     const order = allOrders.find(o => (o.rowNumber || getKey(o, ['Row'])) == row);
     if (!order) return;
@@ -802,7 +880,44 @@ function editOrderModal(row) {
     document.getElementById('orderNote').value = getKey(order, ['Note', 'note', 'टीप']) || '';
 
     document.getElementById('itemsContainer').innerHTML = '';
-    addItemRow();
+    
+    // Parse Items - "रवा + गहू (बारीक) - रवा: 5Kg + गहू: 5Kg x ₹90 = ₹900"
+    const itemsText = getKey(order, ['ऑर्डर डिटेल्स', 'Items']) || '';
+    const itemsList = itemsText.split(' | ');
+    
+    itemsList.forEach(itemStr => {
+        if (!itemStr.trim()) return;
+        
+               // Regex ने Parse कर
+        const mixedMatch = itemStr.match(/(रवा \+ (गहू|मैदा)) \((.*?)\) - रवा: ([\d.]+)Kg \+ (गहू|मैदा): ([\d.]+)Kg x ₹([\d.]+)/);
+        const normalMatch = itemStr.match(/(.*?) \((.*?)\) - ([\d.]+)Kg x ₹([\d.]+)/);
+
+        if (mixedMatch) {
+            // Mixed Shevai: रवा + गहू/मैदा
+            addItemRow({
+                type: mixedMatch[1], // रवा + गहू किंवा रवा + मैदा
+                size: mixedMatch[3], // बारीक/जाड
+                isMixed: true,
+                ravaKg: parseFloat(mixedMatch[4]),
+                mixKg: parseFloat(mixedMatch[6]),
+                rate: parseFloat(mixedMatch[7])
+            });
+        } else if (normalMatch) {
+            // Normal Shevai
+            addItemRow({
+                type: normalMatch[1].trim(),
+                size: normalMatch[2],
+                isMixed: false,
+                qty: parseFloat(normalMatch[3]),
+                rate: parseFloat(normalMatch[4])
+            });
+        }
+    });
+
+    // जर एकही Item Parse झाला नाही तर एक Blank Row टाक
+    if (document.getElementById('itemsContainer').children.length === 0) {
+        addItemRow();
+    }
 
     document.getElementById('addOrderModal').style.display = 'flex';
 }
@@ -837,6 +952,7 @@ function formatDate(dateString) {
 
 function showToast(msg) {
     console.log(msg);
+    // Toast Library असेल तर इथे Call कर
 }
 
 // ===== POPUP FUNCTIONS =====
