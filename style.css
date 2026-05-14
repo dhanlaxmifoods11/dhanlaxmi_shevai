@@ -353,11 +353,36 @@ hr {
     margin-top: 10px;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+    text-decoration: none;
+    display: inline-block;
 }
 
 .cta-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5);
+}
+
+/* ✅ NEW: CTA Buttons Container */
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* ✅ NEW: Home Page Review Button */
+.review-btn-home {
+    background: linear-gradient(135deg, #99edf1, #9debe4) !important;
+    color: #000 !important;
+    border: 2px solid #74d5dc !important;
+    box-shadow: 0 4px 10px rgba(7, 255, 234, 0.4) !important;
+}
+
+.review-btn-home:hover {
+    background: linear-gradient(135deg, #99edf1, #9debe4) !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(7, 255, 234, 0.6) !important;
 }
 
 /* ===== प्रोडक्ट्स पेज - NEW UPDATED ===== */
@@ -731,6 +756,46 @@ hr {
     box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
+/* ✅ NEW: Google Review Section Styling */
+.google-review-section {
+    background: linear-gradient(135deg, #4285F4, #34A853);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+}
+
+.google-review-section h3 {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.google-review-section p {
+    color: white;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.review-btn-footer {
+    display: inline-block;
+    padding: 16px 32px;
+    background: white;
+    color: #4285F4;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.review-btn-footer:hover {
+    background: #f5f5f5;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
 /* ===== Footer ===== */
 .site-footer {
     background: linear-gradient(135deg, #5D2E0C, #3E1F05);
@@ -909,6 +974,32 @@ hr {
         z-index: 0;
         pointer-events: none;
     }
+    
+    /* ✅ NEW: Mobile Review Button Styling */
+    .cta-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .review-btn-home {
+        width: 100%;
+        font-size: 18px;
+        padding: 14px 30px;
+    }
+    
+    .google-review-section {
+        padding: 20px;
+    }
+    
+    .google-review-section h3 {
+        font-size: 20px;
+    }
+    
+    .review-btn-footer {
+        width: 100%;
+        font-size: 16px;
+        padding: 14px 24px;
+    }
 }
 
 #customerNote {
@@ -939,7 +1030,7 @@ hr {
         transform: scale(1.05);
     }
     100% { 
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+        box-shadow: 0 0 rgba(37, 211, 102, 0);
         transform: scale(1);
     }
 }
@@ -971,7 +1062,7 @@ hr {
 .wa-icon {
     width: 35px;
     height: 35px;
-    filter: brightness(0) invert(1); /* White करायला */
+    filter: brightness(0) invert(1);
 }
 
 /* Mobile साठी */
@@ -985,5 +1076,94 @@ hr {
     .wa-icon {
         width: 30px;
         height: 30px;
+    }
+}
+
+/* ===== Call & Review Floating Buttons ===== */
+@keyframes pulse-call {
+    0% { 
+        box-shadow: 0 0 0 rgba(25, 118, 210, 0.7);
+        transform: scale(1);
+    }
+    70% { 
+        box-shadow: 0 0 0 15px rgba(25, 118, 210, 0);
+        transform: scale(1.05);
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse-review {
+    0% { 
+        box-shadow: 0 0 0 rgba(255, 193, 7, 0.7);
+        transform: scale(1);
+    }
+    70% { 
+        box-shadow: 0 0 0 15px rgba(255, 193, 7, 0);
+        transform: scale(1.05);
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+        transform: scale(1);
+    }
+}
+
+/* Common Float Button Style */
+.float-btn {
+    position: fixed; 
+    right: 20px; 
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; 
+    text-decoration: none; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.float-btn:hover {
+    transform: scale(1.1);
+    animation: none;
+}
+
+/* Call Button - WA च्या वर 70px */
+.call-float-btn {
+    bottom: 90px; 
+    background: #1976D2; 
+    animation: pulse-call 2s infinite;
+}
+
+.call-float-btn:hover {
+    background: #0D47A1;
+}
+
+/* Review Button - Call च्या वर 70px */
+.review-float-btn {
+    bottom: 160px; 
+    background: linear-gradient(135deg, #FFC107, #FF9800); 
+    animation: pulse-review 2s infinite;
+}
+
+.review-float-btn:hover {
+    background: linear-gradient(135deg, #FFB300, #F57C00);
+}
+
+/* Mobile साठी */
+@media only screen and (max-width: 768px) {
+    .float-btn {
+        width: 55px;
+        height: 55px;
+        right: 15px;
+    }
+    .call-float-btn {
+        bottom: 80px;
+    }
+    .review-float-btn {
+        bottom: 145px;
     }
 }

@@ -101,9 +101,15 @@
             </p>
         </div>
 
-        <button class="cta-btn" onclick="document.querySelector('[data-target=order]').click()">
-            आत्ताच ऑर्डर करा →
-        </button>
+        <!-- ✅ UPDATED: CTA Buttons + Google Review Button -->
+        <div class="cta-buttons" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+            <button class="cta-btn" onclick="document.querySelector('[data-target=order]').click()">
+                आत्ताच ऑर्डर करा →
+            </button>
+            <a href="https://g.page/r/CWj-aPUZYS-eEAE/review" target="_blank" class="cta-btn review-btn-home">
+                ⭐ Google Review द्या
+            </a>
+        </div>
     </div>
 </div>
 
@@ -116,7 +122,7 @@
             <!-- Product 1: रवा शेवई - Best Seller -->
             <div class="product-card best-seller">
                 <span class="best-tag">🏆 Best Seller</span>
-                <img src="images/rava-shevai.jpg" alt="Dhanlaxmi Rava Shevai 1kg Pack Satara" class="product-img">
+                <img src="images/rava-shevai.jpeg" alt="Dhanlaxmi Rava Shevai 1kg Pack Satara" class="product-img">
                 <h3>🥛 रवा शेवई</h3>
                 <div class="product-rating">
                     <span class="stars">★★★★★</span>
@@ -148,7 +154,7 @@
 
             <!-- Product 2: गहू शेवई -->
             <div class="product-card">
-                <img src="images/gahu-shevai.jpg" alt="Dhanlaxmi Gahu Shevai 1kg Pack Satara" class="product-img">
+                <img src="images/gahu-shevai.jpeg" alt="Dhanlaxmi Gahu Shevai 1kg Pack Satara" class="product-img">
                 <h3>🌾 गहू शेवई</h3>
                 <div class="product-rating">
                     <span class="stars">★★★★★</span>
@@ -180,7 +186,7 @@
 
             <!-- Product 3: मैदा शेवई -->
             <div class="product-card">
-                <img src="images/maida-shevai.jpg" alt="Dhanlaxmi Maida Shevai 1kg Pack Satara" class="product-img">
+                <img src="images/maida-shevai.jpeg" alt="Dhanlaxmi Maida Shevai 1kg Pack Satara" class="product-img">
                 <h3>🍝 मैदा शेवई</h3>
                 <div class="product-rating">
                     <span class="stars">★★★★☆</span>
@@ -216,7 +222,7 @@
         <h2>🎁 मिक्स शेवई पॅक</h2>
         <div class="product-types">
             <div class="product-card">
-                <img src="images/mix-shevai.jpg" alt="Dhanlaxmi Mix Shevai Rava Gahu Pack" class="product-img">
+                <img src="images/mix-shevai.jpeg" alt="Dhanlaxmi Mix Shevai Rava Gahu Pack" class="product-img">
                 <h3>🥣 रवा + गहू मिक्स</h3>
                 <div class="product-rating">
                     <span class="stars">★★★★★</span>
@@ -235,7 +241,7 @@
             </div>
 
             <div class="product-card">
-                <img src="images/mix-maida.jpg" alt="Dhanlaxmi Mix Shevai Rava Maida Pack" class="product-img">
+                <img src="images/mix-maida.jpeg" alt="Dhanlaxmi Mix Shevai Rava Maida Pack" class="product-img">
                 <h3>🥣 रवा + मैदा मिक्स</h3>
                 <div class="product-rating">
                     <span class="stars">★★★★☆</span>
@@ -491,6 +497,17 @@
                     <span>📞</span> आत्ताच कॉल करा
                 </a>
             </div>
+            
+            <!-- ✅ NEW: Google Review Section Added -->
+            <div class="google-review-section">
+                <h3 style="text-align: center; margin-top: 25px; margin-bottom: 15px;">⭐ आम्हाला Review द्या ⭐</h3>
+                <p style="text-align: center; margin-bottom: 15px;">तुमच्या 1 Review ने आम्हाला खूप मदत होईल 🙏</p>
+                <div style="text-align: center;">
+                    <a href="https://g.page/r/CWj-aPUZYS-eEAE/review" target="_blank" class="review-btn-footer">
+                        ⭐⭐⭐⭐⭐ Google वर Review द्या
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
    
@@ -713,7 +730,7 @@
                 let rate = Number(typeSelect.value);
                 if (rate === 0) return;
                 
-                let typeName = typeSelect.options[typeSelect.selectedIndex].getAttribute('data-type');
+                                let typeName = typeSelect.options[typeSelect.selectedIndex].getAttribute('data-type');
                 let size = row.querySelector('.size-select').value;
                 let qty, itemTotal, sizeDetail;
 
@@ -722,7 +739,7 @@
                     let qty2 = Number(row.querySelector('.qty2-select').value);
                     qty = qty1 + qty2;
                     if (qty1 < 1 || qty2 < 1) return;
-                                        const item2Name = typeName === 'रवा + गहू' ? 'गहू' : 'मैदा';
+                    const item2Name = typeName === 'रवा + गहू' ? 'गहू' : 'मैदा';
                     sizeDetail = `रवा ${qty1}Kg + ${item2Name} ${qty2}Kg`;
                 } else {
                     qty = Number(row.querySelector('.qty-select').value);
@@ -848,6 +865,26 @@
             </style> -->
 
             <!-- WhatsApp Floating Button - Fixed Version -->
+
+            <!-- ===== Floating Buttons Start ===== -->
+
+            <!-- 1. Review Button - वरचा -->
+            <a href="https://g.page/r/CWj-aPUZYS-eEAE/review" 
+                target="_blank" 
+                class="float-btn review-float-btn"
+                title="Google Review द्या">
+                <span style="font-size: 28px;">⭐</span>
+            </a>
+
+            <!-- 2. Call Button - मधला -->
+            <a href="tel:9561297071" 
+                class="float-btn call-float-btn"
+                title="Call करा">
+                <span style="font-size: 28px;">📞</span>
+            </a>
+
+            <!-- 3. WhatsApp Button - तुझा जुनाच (याला हात लावू नको) -->
+
             <a href="https://wa.me/919561297071?text=नमस्कार%20धनलक्ष्मी%20फूड्स%2C%20मला%20ऑर्डर%20करायची%20आहे." 
                 target="_blank" 
                 class="wa-float-btn"
