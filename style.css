@@ -825,6 +825,118 @@ hr {
     color: #FFB74D;
 }
 
+/* ===== Footer Left-Right Layout - Font Updated ===== */
+.site-footer {
+    padding: 35px 20px 15px 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto 25px auto;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+/* Left Side: QR Code */
+.footer-qr {
+    flex: 0 0 auto;
+    text-align: center;
+}
+
+.footer-qr h4 {
+    font-size: 18px; /* वाढवला */
+    font-weight: 600;
+}
+
+.qr-link {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.qr-link:hover {
+    transform: scale(1.08);
+}
+
+.google-qr-img {
+    width: 140px; /* थोडा मोठा केला */
+    height: auto;
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.footer-qr p {
+    font-size: 14px; /* वाढवला */
+    margin-top: 10px;
+}
+
+/* Right Side: Address Info - Font वाढवला */
+.footer-info {
+    flex: 1 1 450px;
+    text-align: right;
+}
+
+.footer-info h3 {
+    color: #FFB74D;
+    margin: 0 0 12px 0;
+    font-size: 28px; /* 24px वरून 28px */
+    font-weight: 700;
+}
+
+.footer-info p {
+    margin: 8px 0; /* Gap वाढवला */
+    font-size: 16px; /* 14px वरून 16px */
+    color: #FFF;
+    line-height: 1.6;
+}
+
+.copyright {
+    border-top: 1px solid rgba(255, 183, 77, 0.2);
+    padding-top: 18px;
+    margin-top: 15px;
+    font-size: 14px; /* 13px वरून 14px */
+    color: #FFE0B2;
+}
+
+/* Mobile Responsive */
+@media only screen and (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+    
+    .footer-info {
+        text-align: center;
+    }
+    
+    .footer-info h3 {
+        font-size: 24px; /* Mobile साठी */
+    }
+    
+    .footer-info p {
+        font-size: 15px; /* Mobile साठी */
+    }
+    
+    .google-qr-img {
+        width: 130px;
+        padding: 8px;
+    }
+    
+    .footer-qr h4 {
+        font-size: 16px;
+    }
+    
+    .footer-qr p {
+        font-size: 13px;
+    }
+}
+
 .watermark-img {
     position: fixed;
     top: 50%;
