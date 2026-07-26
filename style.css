@@ -10,16 +10,22 @@ html {
     scroll-padding-top: 70px;
 }
 
+:root {
+    --brand-red: #C62828;
+    --brand-yellow: #FFB74D;
+    --brand-bg: #FFF8E1;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Mukta', 'Noto Sans Devanagari', Arial, sans-serif;
     margin: 0;
     padding-top: 70px;
-    background-color: #FFF8E1;
+    background-color: var(--brand-bg); /* #FFF8E1 */ 
 }
 
 /* ===== मेन्यू बार ===== */
 .navbar {
-    background-color: #C62828;
+    background-color: var(--brand-red);
     padding: 0;
     position: fixed;
     top: 0;
@@ -1278,4 +1284,28 @@ hr {
     .review-float-btn {
         bottom: 145px;
     }
+}
+.important-notes-box {
+    background: #FFF3E0;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #E65100;
+    margin: 25px 0;
+    text-align: left;
+}
+.important-notes-box h3 {
+    color: #E65100;
+    margin: 0 0 12px 0;
+    font-size: 18px;
+}
+.important-notes-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.important-notes-box li {
+    padding: 6px 0;
+    font-size: 15px;
+    color: #4E342E;
+    line-height: 1.6;
 }
