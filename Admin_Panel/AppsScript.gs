@@ -1,8 +1,8 @@
 // Apps Script for Dhanlaxmi Foods — Google Sheet Order API
 // Paste this code into a new project at script.google.com
-// Replace SHEET_ID with your Google Sheet ID (the long ID in the sheet URL)
+// SHEET_ID has been set from repository owner input
 
-const SHEET_ID = 'REPLACE_WITH_YOUR_SHEET_ID';
+const SHEET_ID = '14gxsRJpuiJcNoPQMeRjCYB-Xl-n20KMJ1_IZsnpZNLM';
 const ORDERS_SHEET_NAME = 'Orders';
 
 function _getSheet() {
