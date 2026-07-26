@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pending Registrations - Admin</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;padding:24px}
+    .card{background:#fff;padding:18px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    h2{margin:0 0 12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px 10px;border-bottom:1px solid #eee;text-align:left}
+    th{background:#fafafa}
+    .btn{padding:6px 10px;border-radius:6px;border:none;cursor:pointer}
+    .btn-approve{background:#28a745;color:#fff}
+    .btn-reject{background:#e53935;color:#fff}
+    .btn-promote{background:#1976d2;color:#fff}
+    .small{font-size:13px;color:#666}
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="topbar">
+      <h2>Pending Registrations</h2>
+      <div class="small">Only Super Admin can approve / reject / promote</div>
+    </div>
+
+    <div id="accessNotice" style="display:none;color:#c62828;margin-bottom:8px"></div>
+    <div id="registrationsContainer">Loading...</div>
+  </div>
+
+<script>
+const API_URL = (window.APP_CONFIG && window.APP_CONFIG.API_URL) ? window.APP_CONFIG.API_URL : '';
+
+function getCurrentUserSafe(){
+  if (typeof getCurrentUser === 'function') return getCurrentUser();
+  try { const u = sessionStorage.getItem('currentUser'); return u? JSON.parse(u): null; } catch(e){return null}
+}
+
+async function loadRegistrations(){
+  const user = getCurrentUserSafe();
+  const ownerEmail = (window.APP_CONFIG && window.APP_CONFIG.OWNER_EMAIL) ? window.APP_CONFIG.OWNER_EMAIL.toLowerCase() : '';
+
+  // Only allow Super Admin (by role) or owner email
+  if (!user || (user.role !== 'superadmin' && String(user.email || '').toLowerCase() !== ownerEmail)){
+    document.getElementById('accessNotice').style.display = 'block';
+    document.getElementById('accessNotice').textContent = 'Access denied — only Super Admin can view registrations. आपण Super Admin म्हणून लॉगिन केलेले नाही.';
+    document.getElementById('registrationsContainer').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('accessNotice').style.display = 'none';
+  document.getElementById('registrationsContainer').innerHTML = 'Loading...';
+
+  try{
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'getRegistrations' })
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      document.getElementById('registrationsContainer').innerHTML = '<div class="small">Error: '+(data.error||'unknown')+'</div>';
+      return;
+    }
+
+    const regs = data.registrations || [];
+    if (regs.length === 0){
+      document.getElementById('registrationsContainer').innerHTML = '<div class="small">No pending registrations</div>';
+      return;
+    }
+
+    const rows = regs.map(r => {
+      const status = r['Status'] || r.Status || r['Status '];
+      return `<tr id="row-${r['Request ID']}">
+        <td>${r['Request ID']}</td>
+        <td>${r['Name']}</td>
+        <td>${r['Email']}</td>
+        <td>${r['RequestedRole'] || r['Requested Role'] || ''}</td>
+        <td>${status || ''}</td>
+        <td>
+          ${status==='pending' || String(status).toLowerCase()==='pending' ? `<button class="btn btn-approve" onclick="approve('${r['Request ID']}')">Approve</button>` : ''}
+          ${status==='pending' || String(status).toLowerCase()==='pending' ? `<button class="btn btn-reject" onclick="rejectReq('${r['Request ID']}')">Reject</button>` : ''}
+          <button class="btn btn-promote" onclick="promoteUser('${encodeURIComponent(r['Email'])}')">Promote to admin</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    const table = `<table><thead><tr><th>Request ID</th><th>Name</th><th>Email</th><th>Requested Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`;
+    document.getElementById('registrationsContainer').innerHTML = table;
+  } catch(err){
+    document.getElementById('registrationsContainer').innerHTML = '<div class="small">Error: '+err.message+'</div>';
+  }
+}
+
+async function approve(requestId){
+  if (!confirm('Approve request '+requestId+' ?')) return;
+  try{
+    const res = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action: 'approveRegistration', requestId: requestId, approver: (getCurrentUserSafe()||{}).email || '' }) });
+    const data = await res.json();
+    if (data.ok) { alert('Approved'); loadRegistrations(); } else { alert('Error: '+(data.error||data.warning||'unknown')); }
+  } catch(e){ alert('Error: '+e.message); }
+}
+
+async function rejectReq(requestId){
+  const reason = prompt('Reason for rejection (optional)');
+  if (reason===null) return;
+  try{
+    const res = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action: 'rejectRegistration', requestId: requestId, reason: reason }) });
+    const data = await res.json();
+    if (data.ok) { alert('Rejected'); loadRegistrations(); } else { alert('Error: '+(data.error||'unknown')); }
+  } catch(e){ alert('Error: '+e.message); }
+}
+
+async function promoteUser(emailEncoded){
+  const email = decodeURIComponent(emailEncoded);
+  if (!confirm('Promote '+email+' to admin?')) return;
+  try{
+    const res = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action: 'promoteUser', email: email, role: 'admin', actor: (getCurrentUserSafe()||{}).email || '' }) });
+    const data = await res.json();
+    if (data.ok) { alert('User promoted'); loadRegistrations(); } else { alert('Error: '+(data.error||'unknown')); }
+  } catch(e){ alert('Error: '+e.message); }
+}
+
+// Initial load
+loadRegistrations();
+</script>
+</body>
+</html>
