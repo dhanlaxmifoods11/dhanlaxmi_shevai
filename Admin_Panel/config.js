@@ -10,5 +10,5 @@ window.APP_CONFIG = {
   SHARED_SECRET: '',
   // Owner / Super Admin contact (public contact only)
   OWNER_EMAIL: 'dhanlaxmifoods11@gmail.com',
-  OWNER_PHONE: '91956297071'
+  OWNER_PHONE: '919561297071'
 };
