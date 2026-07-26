@@ -3,7 +3,7 @@
 // ========== Mixed Shevai Support + Website Like UI ===
 // =====================================================
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbzcQviEyybujCo-XM-CEHQXZdMYcyv2tmNAauY2HWwQ5BCyjURVxDo1wk8dEOgoiCg/exec';
+const API_URL = (window.APP_CONFIG && window.APP_CONFIG.API_URL) ? window.APP_CONFIG.API_URL : 'https://script.google.com/macros/s/AKfycbzcQviEyybujCo-XM-CEHQXZdMYcyv2tmNAauY2HWwQ5BCyjURVxDo1wk8dEOgoiCg/exec';
 
 // Global Variables
 let allOrders = [];
@@ -278,7 +278,7 @@ function displayOrders(orders) {
                 <td>
                     <select class="status-dropdown" onchange="handleStatusChange('${row}', this.value)">
                         <option value="नवीन ऑर्डर" ${status === 'नवीन ऑर्डर'? 'selected' : ''}>नवीन ऑर्डर</option>
-                        <option value="प्रक्रिया सुरू" ${status === 'प्रक्रिया सुरू'? 'selected' : ''}>प्रक्रिया सुरू</option>
+                        <option value="प्रक्रिया सुरू" ${status === 'प्रक्रिया सुरू'? 'selected' : ''}>प्रक्रिया सुरू[...]
                         <option value="तयार" ${status === 'तयार'? 'selected' : ''}>तयार</option>
                         <option value="डिलिव्हर" ${status === 'डिलिव्हर'? 'selected' : ''}>डिलिव्हर</option>
                     </select>
@@ -520,7 +520,7 @@ function sendWhatsApp(row) {
 }
 
 // =====================================================
-// ========== BULK ACTIONS - INVOICE UPDATED ===========
+// ========== BULK ACTIONS - INVOICE UPDATED ==========
 // =====================================================
 
 function toggleSelect(row) {
@@ -864,7 +864,7 @@ function editOrderModal(row) {
     if (!order) return;
 
     const status = getKey(order, ['Status'])?.trim();
-    if (status === 'डिलिव्हर') {
+    if (status === 'डिलिव्हר') {
         alert('Delivered Order Edit करू शकत नाही!');
         return;
     }
