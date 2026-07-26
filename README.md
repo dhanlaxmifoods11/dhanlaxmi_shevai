@@ -5,9 +5,22 @@
 
 Official Website: `dhanlaxmifoods11.github.io/dhanlaxmi_shevai/`
 
+---
+
+## 📊 Repository Info
+
+- **Repository:** dhanlaxmi_shevai
+- **Owner:** dhanlaxmifoods11
+- **Repository ID:** 1214318806
+- **Primary Language:** JavaScript (39.3%)
+- **Secondary Languages:** HTML (33.2%), CSS (27.5%)
+- **Latest Update:** Price terms and conditions update
+
+---
+
 ## Project Overview
 
-हा एक मल्टी-पार्ट वेब प्रोजेक्ट आहे ज्यामध्ये प्रोफेशनल बिझनेस वेबसाइट, ऑर्डर सिस्टम, PWA आणि Admin पॅनल आहे. याचा मुख्य उद्देश ग्राहकांना थेट ऑनलाइन ऑर्डर, किंमत आणि प्रॉडक्ट माहिती देणे हा आहे.
+हा एक मल्टी-पार्ट वेब प्रोजेक्ट आहे ज्यामध्ये प्रोफेशनल बिझनेस वेबसाइट, ऑर्डर मॅनेजमेंट, आणि ऑटोमेशन सिस्टम आहे.
 
 ## ✨ Key Features
 
@@ -18,6 +31,7 @@ Official Website: `dhanlaxmifoods11.github.io/dhanlaxmi_shevai/`
 - **Retail Pricing** - क्लिअर ₹70 आणि ₹90 / किलो किंमत यादी
 - **Nutrition Table** - प्रत्येक प्रॉडक्टसाठी 100g पौष्टिक मूल्य
 - **Important Notes Box** - MOQ 2kg, Free Delivery, No Return Policy
+- **Updated Terms & Conditions** - Latest pricing and policies
 
 ### Contact & Marketing
 - **WhatsApp Order** - एका क्लिकवर WhatsApp ला ऑर्डर Summary जातो
@@ -45,21 +59,87 @@ Official Website: `dhanlaxmifoods11.github.io/dhanlaxmi_shevai/`
 
 ## 🛠️ Technology Stack
 
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript
-- **Font:** Google Fonts - Mukta
-- **PWA:** Web App Manifest + Service Worker
-- **Backend Integration:** Google Apps Script + Google Sheets
-- **Automation:** Python for Billing/Order Processing
-- **Hosting:** GitHub Pages
+| Technology | Usage |
+| --- | --- |
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript (39.3% + 33.2% + 27.5%) |
+| **Font** | Google Fonts - Mukta |
+| **PWA** | Web App Manifest + Service Worker |
+| **Backend Integration** | Google Apps Script + Google Sheets |
+| **Automation** | Python for Billing/Order Processing |
+| **Hosting** | GitHub Pages |
 
 ## 📁 Project Structure
 
 ```text
-Dhanlaxmi Food/
-├── dhanlaxmi_shevai/       # Main Website - index.html, style.css, images/
+dhanlaxmi_shevai/
+├── index.html              # Main Website Entry Point
+├── style.css               # Primary Styling
+├── script.js               # Core Functionality
+├── manifest.json           # PWA Manifest
+├── service-worker.js       # Service Worker for Offline Support
+├── images/                 # Product Images and Assets
 ├── Dhanlaxmi_App/          # PWA Version - App style pages
 ├── Admin_Panel/            # Admin Interface for Orders
 ├── python/                 # Billing and Order Processing Scripts
 ├── Photos/                 # Product and Brand Images
 ├── row code/               # Backup and Old Code
 └── Testing Code/           # Experimental Features
+```
+
+## 💰 Pricing & Terms
+
+**Current Pricing (Updated):**
+- रवा शेवई: ₹70 per kg
+- गहू/मैदा शेवई: ₹90 per kg
+- Mixed Varieties: ₹90 per kg
+
+**Policy:**
+- Minimum Order: 2kg
+- Free Home Delivery in Satara City
+- No Return Policy
+- 100% Pure, Chemical-Free Products
+- Made Fresh Daily
+
+## 🚀 Getting Started
+
+### Local Development
+```bash
+# Clone the repository
+git clone https://github.com/dhanlaxmifoods11/dhanlaxmi_shevai.git
+
+# Navigate to project directory
+cd dhanlaxmi_shevai
+
+# Open in browser
+open index.html
+```
+
+### Deploy to GitHub Pages
+1. Push changes to main branch
+2. Enable GitHub Pages in repository settings
+3. Select main branch as source
+4. Website will be available at: `https://dhanlaxmifoods11.github.io/dhanlaxmi_shevai/`
+
+## 📞 Contact & Order
+
+- **WhatsApp:** Quick order button on website
+- **Location:** Satara, Maharashtra, India
+- **Service Area:** Satara City (Free Delivery)
+- **Google Maps:** Scan QR in website footer
+
+## 📋 Recent Updates
+
+- ✅ Updated price terms and conditions
+- ✅ Enhanced order form with live price calculation
+- ✅ Improved mobile responsiveness
+- ✅ Added nutrition information for all products
+- ✅ PWA support for app-like experience
+
+## 📝 License
+
+This project is maintained by dhanlaxmifoods11 for Dhanlaxmi Foods business operations.
+
+---
+
+**Last Updated:** 2026-07-26  
+**Repository:** [dhanlaxmi_shevai](https://github.com/dhanlaxmifoods11/dhanlaxmi_shevai)
