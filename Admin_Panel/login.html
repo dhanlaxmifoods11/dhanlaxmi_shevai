@@ -81,6 +81,18 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(245, 124, 0, 0.3);
         }
+        .reset-btn {
+            width: 100%;
+            padding: 10px;
+            background: #FFF;
+            color: #333;
+            border: 2px solid #FFE0B2;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+        }
         .error {
             background: #FFEBEE;
             color: #C62828;
@@ -125,7 +137,33 @@
             </div>
             <button type="submit" class="login-btn">Login करा</button>
         </form>
+
+        <!-- Reset users helper (visible on login page) -->
+        <button id="resetUsersBtn" class="reset-btn" title="Restore default admin users">Reset users to default</button>
+
     </div>
+
+    <script>
+    // Reset users button handler — restores default admin credentials into localStorage
+    function resetUsersConfirm() {
+        const ok = confirm('Reset admin users to default credentials? This will overwrite any existing local admin accounts. Proceed?');
+        if (!ok) return;
+        const defaultUsers = [
+            { username: 'admin', password: 'admin@123', role: 'owner', name: 'Owner' },
+            { username: 'staff1', password: 'staff@123', role: 'staff', name: 'Staff 1' },
+            { username: 'staff2', password: 'staff@123', role: 'staff', name: 'Staff 2' }
+        ];
+        localStorage.setItem('adminUsers', JSON.stringify(defaultUsers));
+        alert('Default admin users restored. Use username: admin / password: admin@123');
+        // Reload so auth.js picks up the users if needed
+        location.reload();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('resetUsersBtn');
+        if (btn) btn.addEventListener('click', resetUsersConfirm);
+    });
+    </script>
+
     <script src="auth.js"></script>
 </body>
 </html>
