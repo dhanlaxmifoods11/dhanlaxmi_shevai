@@ -1,0 +1,27 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+env/
+venv/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Credentials
+.env
+
+# Build
+dist/
+build/
