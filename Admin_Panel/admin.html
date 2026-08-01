@@ -42,6 +42,7 @@
             <img src="Designer.png" alt="Logo" class="admin-logo">
             <h1>ऑर्डर डॅशबोर्ड</h1>
             <div class="header-buttons">
+                <a href="Admin_Panel/registrations.html" id="registrationsBadge" style="background:#FFD54F;color:#000;padding:8px 10px;border-radius:8px;margin-right:10px;text-decoration:none;font-weight:700;display:none;">Registrations: <span id="regCount">0</span></a>
                 <span id="userDisplay" style="color: white; margin-right: 15px; font-weight: 600;"></span>
                 <a href="change_password.html" class="accounts-btn" style="background: #6D4C41;">⚙️ Settings</a>
                 <button class="add-btn" onclick="openOrderModal()">+ नवीन ऑर्डर</button>
@@ -309,5 +310,29 @@
     <!-- include central config so admin.js can read API_URL -->
     <script src="config.js"></script>
     <script src="admin.js"></script>
+
+<!-- Registrations badge updater -->
+<script>
+async function updateRegistrationsBadge(){
+  const api = (window.APP_CONFIG && window.APP_CONFIG.API_URL) ? window.APP_CONFIG.API_URL : '';
+  if (!api) return;
+  try {
+    const res = await fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'getRegistrations' }) });
+    const data = await res.json();
+    if (data && data.ok && Array.isArray(data.registrations)) {
+      const pending = data.registrations.filter(r => String(r['Status']||r.Status||'').toLowerCase() === 'pending').length;
+      const badge = document.getElementById('registrationsBadge');
+      const count = document.getElementById('regCount');
+      if (badge && count) {
+        count.textContent = pending;
+        badge.style.display = pending>0? 'inline-block':'none';
+      }
+    }
+  } catch (e){
+    console.warn('Registrations badge fetch failed', e.message);
+  }
+}
+window.addEventListener('load', updateRegistrationsBadge);
+</script>
 </body>
 </html>
