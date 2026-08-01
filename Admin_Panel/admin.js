@@ -3,7 +3,7 @@
  // ========== Mixed Shevai Support + Website Like UI ===
 // =====================================================
 
-const API_URL = (window.APP_CONFIG && window.APP_CONFIG.API_URL) ? window.APP_CONFIG.API_URL : 'https://script.google.com/macros/s/AKfycbzcQviEyybujCo-XM-CEHQXZdMYcyv2tmNAauY2HWwQ5BCyjURVxDo1wk8dEOgoiCg/exec';
+const API_URL = (window.APP_CONFIG && window.APP_CONFIG.API_URL) ? window.APP_CONFIG.API_URL : 'https://script.google.com/macros/s/AKfycbzyEFnUAir7u9cMdZjB1_KGmf7d9YB_82GWrrTqR9C3ltJOSY77idFoPDRku4gIcRKk/exec';
 
 // Global Variables
 let allOrders = [];
