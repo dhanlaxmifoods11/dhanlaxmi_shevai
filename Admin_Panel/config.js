@@ -5,7 +5,7 @@ window.APP_CONFIG = {
   // Web app URL for Google Apps Script (deployed web app /exec)
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzyEFnUAir7u9cMdZjB1_KGmf7d9YB_82GWrrTqR9C3ltJOSY77idFoPDRku4gIcRKk/exec',
   // Admin panel uses API_URL alias for clarity
-  API_URL: 'https://script.google.com/macros/s/AKfycbzZn6yK_dIHQRbjOquaxw1kPKC5-WyYLpGFzyigy7UzBDFmpePce26ijYrwL092xrAA/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbzyEFnUAir7u9cMdZjB1_KGmf7d9YB_82GWrrTqR9C3ltJOSY77idFoPDRku4gIcRKk/exec',
   // OPTIONAL: Shared secret placeholder. Do NOT put real secrets in client-side files.
   SHARED_SECRET: '',
   // Owner / Super Admin contact (public contact only)
